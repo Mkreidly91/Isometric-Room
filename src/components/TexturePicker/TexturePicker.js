@@ -5,9 +5,6 @@ import "./TexturePicker.css";
 export const TexturePicker = (props) => {
   const { textureMaps, textureList } = textures;
   const textureNames = Object.values(textureList);
-  //   const listItems = textureNames.map((element) => {
-  //     return <option key={element}>{element}</option>;
-  //   });
 
   const listItems = Object.keys(textureList).map((element) => {
     const name = textureList[element];
