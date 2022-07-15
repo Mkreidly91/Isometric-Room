@@ -58,13 +58,13 @@ const App = () => {
       selected: { selected },
     });
   }, [wallsList, selectedTexture]);
-  console.log("i rendered");
+
   return (
     <div className="main">
       <Canvas camera={camera} dpr={window.devicePixelRatio}>
         <ambientLight />
-        <spotLight
-          intensity={1.5}
+        <pointLight
+          intensity={1}
           angle={1}
           penumbra={1}
           position={[-10, 15, -10]}
