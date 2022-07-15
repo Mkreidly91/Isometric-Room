@@ -1,20 +1,20 @@
-import React, { useState, Suspense, useRef } from "react";
+import React, { useState, useMemo, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
-import { OrbitControls, Stars, softShadows } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import "./App.css";
 
 import { TexturePicker } from "./components/TexturePicker/TexturePicker";
 
 //import models and plane
-import Room from "./components/Room/Room";
-import Wall from "./components/wall/Wall";
+
 import Tiles from "./components/Tiles/Tiles";
+import { wallsList, createWalls } from "./wallCreator";
 
 //import textures
 import { textures } from "./textures";
-const { beigeWall, concreteBrick, redBrick, blackWhiteTiles } =
-  textures.textureMaps;
+
+const { blackWhiteTiles } = textures.textureMaps;
 
 const App = () => {
   //Camera
@@ -27,11 +27,38 @@ const App = () => {
   camera.position.set(-30, 50, -30);
   camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-  const selectedItem = useRef();
-  const [selectedTexture, setSelectedTexture] = useState({ ...beigeWall });
-  const selectTexture = (value) => {
-    setSelectedTexture(JSON.parse(value));
+  /*STATES*/
+  /* maps item index to it's selected texture; */
+  const [selectedTexture, setSelectedTexture] = useState({
+    0: "beigeWall",
+    1: "redBrick",
+  });
+  const selectTexture = (value, selected) => {
+    setSelectedTexture((prev) => {
+      return {
+        ...prev,
+        [selected]: value,
+      };
+    });
   };
+
+  /*stores the selected item's index */
+  const [selectedItem, setSelectedItem] = useState(null);
+  const selected = (value) => {
+    setSelectedItem(value);
+  };
+
+  /*create walls*/
+  const walls = useMemo(() => {
+    return createWalls(selectedTexture, {
+      onClick: (event) => {
+        const targetIndex = event.eventObject.__r3f.memoizedProps.index;
+        selected(targetIndex);
+      },
+      selected: { selected },
+    });
+  }, [wallsList, selectedTexture]);
+  console.log("i rendered");
   return (
     <div className="main">
       <Canvas camera={camera} dpr={window.devicePixelRatio}>
@@ -45,28 +72,12 @@ const App = () => {
         />
         <OrbitControls />
         <Tiles texture={blackWhiteTiles} />
-        <Suspense fallback={null}>
-          <Wall
-            position={[0, 5, 0]}
-            rotation={[-Math.PI / 2, 0, 0]}
-            scale={2}
-            texture={selectedTexture}
-          />
-
-          <Wall
-            position={[10, 5, -10]}
-            rotation={[-Math.PI / 2, 0, Math.PI / 2]}
-            scale={2}
-            ref={selectedItem}
-            texture={selectedTexture}
-          />
-        </Suspense>
+        <Suspense fallback={null}>{walls}</Suspense>
       </Canvas>
       <TexturePicker
         onClick={(event) => {
-          console.log(JSON.parse(event.target.value));
-          selectTexture(event.target.value);
-          // console.log(selectTexture);
+          const value = event.target.value;
+          selectTexture(value, selectedItem);
         }}
       />
     </div>

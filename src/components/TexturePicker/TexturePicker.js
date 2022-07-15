@@ -3,14 +3,12 @@ import { textures } from "../../textures";
 import "./TexturePicker.css";
 
 export const TexturePicker = (props) => {
-  const { textureMaps, textureList } = textures;
-  const textureNames = Object.values(textureList);
+  const { textureList } = textures;
 
-  const listItems = Object.keys(textureList).map((element) => {
+  const NewListItems = Object.keys(textureList).map((element, i) => {
     const name = textureList[element];
-    const value = textureMaps[element];
     return (
-      <option key={name} value={JSON.stringify(value)}>
+      <option key={name} value={element}>
         {name}
       </option>
     );
@@ -18,10 +16,10 @@ export const TexturePicker = (props) => {
 
   return (
     <div className="selectorContainer">
-      <label for="TextureSelect">Choose a texture:</label>
+      <label htmlFor="TextureSelect">Choose a texture:</label>
       <select name="Textures" id="TextureSelect" onChange={props.onClick}>
         <option value={""}>Select a Texture</option>
-        {listItems}
+        {NewListItems}
       </select>
     </div>
   );

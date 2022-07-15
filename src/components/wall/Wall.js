@@ -1,21 +1,10 @@
 import React, { useRef } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
-import {
-  LinearEncoding,
-  MeshStandardMaterial,
-  RedFormat,
-  TextureLoader,
-  FrontSide,
-} from "three";
-import { useControls } from "leva";
-import { useLoader } from "@react-three/fiber";
 
 export default function Wall(props) {
-  const group = useRef();
   const { scene, nodes } = useGLTF("wall/wall.glb");
 
   const texture = useTexture(props.texture);
-  const material = new MeshStandardMaterial({ ...texture });
 
   //leva controls
   // const { setScale, setRotation } = useControls({
@@ -25,14 +14,16 @@ export default function Wall(props) {
 
   return (
     <mesh
+      index={props.index}
       position={props.position}
       rotation={props.rotation}
       scale={props.scale}
       castShadow
       receiveShadow
+      onClick={props.onClick}
     >
       <boxGeometry attach="geometry" args={[10, 0.5, 5]} />
-      <meshStandardMaterial attach="material-2" {...texture} />
+      <meshStandardMaterial attach="material-2" {...texture} color="" />
       <meshBasicMaterial attach="material-0" color="black" />
       <meshBasicMaterial attach="material-1" color="black" />
       <meshBasicMaterial attach="material-3" color="black" />
