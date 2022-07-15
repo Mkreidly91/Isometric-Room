@@ -1,16 +1,27 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
+import { useHover } from "@use-gesture/react";
+import { Color } from "three";
 
 export default function Wall(props) {
-  const { scene, nodes } = useGLTF("wall/wall.glb");
-
   const texture = useTexture(props.texture);
-
+  // const [selectedTexture, setSelectedTexture] = useState(props.texture);
   //leva controls
   // const { setScale, setRotation } = useControls({
   //   scale: 0.2,
   //   rotation: [-Math.PI / 2, 0, 0],
   // });
+  const [mouseOver, setMouseOver] = useState(false);
+  const hoverState = () => {
+    setMouseOver((prev) => !prev);
+  };
+  const hoverObjRef = useRef();
+
+  const bind = useHover(() => {
+    hoverState();
+  });
+
+  const color = new Color("hsl(135, 96%, 48%)");
 
   return (
     <mesh
@@ -21,9 +32,15 @@ export default function Wall(props) {
       castShadow
       receiveShadow
       onClick={props.onClick}
+      ref={hoverObjRef}
+      {...bind()}
     >
       <boxGeometry attach="geometry" args={[10, 0.5, 5]} />
-      <meshStandardMaterial attach="material-2" {...texture} color="" />
+      <meshStandardMaterial
+        attach="material-2"
+        {...texture}
+        color={mouseOver ? color : "white"}
+      />
       <meshBasicMaterial attach="material-0" color="black" />
       <meshBasicMaterial attach="material-1" color="black" />
       <meshBasicMaterial attach="material-3" color="black" />
