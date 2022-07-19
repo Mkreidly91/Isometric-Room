@@ -16,12 +16,12 @@ export const wallsList = [
   },
 ];
 
-export const createWalls = (texture, props) => {
+export const createWalls = (props) => {
   const createJsx = wallsList.map((element, i) => {
-    const t = textureMaps[texture[i]] || textureMaps[1];
-    return <Wall key={i} index={i} {...element} {...props} texture={t} />;
+    // const t = textureMaps[texture[i]] || textureMaps[1];
+    return <Wall key={i} index={`wall-${i}`} {...element} {...props} />;
   });
-  console.log("hello");
+
   return createJsx;
 };
 
