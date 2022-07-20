@@ -5,17 +5,25 @@ import { PortalContext } from "../../App";
 import { ScaleSlider } from "./ScaleSlider/ScaleSlider";
 
 const WallPanel = (props) => {
-  const { textureState, setTextureState } = props;
+  const { texture, setTexture, scale, setScale } = props;
   return (
     <div>
       <TexturePicker
-        value={JSON.stringify(textureState)}
+        value={JSON.stringify(texture)}
         onChange={(event) => {
-          const value = event.target.value;
-          setTextureState(value);
+          const value = JSON.parse(event.target.value);
+          setTexture({ type: "change-texture", payload: value });
         }}
       />
-      <ScaleSlider min={1} max={5} />
+      <ScaleSlider
+        min={1}
+        max={5}
+        value={scale}
+        onChange={(event) => {
+          const value = event.target.value;
+          setScale({ type: "change-scale", payload: value });
+        }}
+      />
     </div>
   );
 };

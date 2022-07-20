@@ -3,7 +3,7 @@ import { textures } from "../../../textures";
 import "./TexturePicker.css";
 
 export const TexturePicker = (props) => {
-  const { textureList, textureMaps, onChange } = textures;
+  const { textureList, textureMaps } = textures;
   const [state, setState] = useState("beigeWall");
 
   const NewListItems = Object.keys(textureList).map((element, i) => {
@@ -24,7 +24,7 @@ export const TexturePicker = (props) => {
         name="Textures"
         id="TextureSelect"
         onChange={(event) => {
-          onChange(event);
+          props.onChange(event);
           setState(event.target.value);
         }}
       >

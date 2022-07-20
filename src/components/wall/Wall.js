@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useReducer, useRef, useState } from "react";
 import { Html, useGLTF, useSelect, useTexture, Edges } from "@react-three/drei";
 import { useHover } from "@use-gesture/react";
 import { Color } from "three";
@@ -9,6 +9,30 @@ import { createPortal } from "react-dom";
 import { useControls } from "leva";
 import { Panel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
+
+const { textureMaps } = textures;
+/*Reducer things*/
+const initialState = {
+  clicked: false,
+  hovered: false,
+  texture: textureMaps["beigeWall"],
+  scale: 2,
+};
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "hovered":
+      return { ...state, hovered: !state.hovered };
+    case "change-texture":
+      return { ...state, texture: action.payload };
+    case "change-scale":
+      return { ...state, scale: action.payload };
+    case "reset":
+      return initialState;
+    default:
+      throw new Error(`Unknown action type: ${action.type}`);
+  }
+};
+
 export default function Wall(props) {
   // leva controls
   const { index, focus, focusedItem, scale, rotation, position } = props;
@@ -20,54 +44,35 @@ export default function Wall(props) {
   //   position: { value: position },
   // });
 
-  const { textureMaps } = textures;
   /*STATES*/
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   // HOVER STATE
-  const [mouseOver, setMouseOver] = useState(false);
+
   const bind = useHover(() => {
-    hoverState();
+    dispatch({ type: "hovered" });
   });
 
-  const hoverState = () => {
-    setMouseOver((prev) => !prev);
-  };
   const hoverObjRef = useRef();
   const hoverColor = new Color("hsl(135, 96%, 48%)");
 
-  // TEXTURE STATE
-  const [selectedTexture, setSelectedTexture] = useState(
-    textureMaps["beigeWall"]
-  );
-  const selectTexture = (value) => {
-    setSelectedTexture(JSON.parse(value));
-  };
-  const texture = useTexture(selectedTexture);
+  const texture = useTexture(state.texture);
+
   //wrapping mode of texture
   wrappingStyle({ texture: texture, mode: "repeat", ratio: [3, 1] });
   const portal = useContext(PortalContext);
 
-  const RenderToPortal = () => {
-    return createPortal(
-      <TexturePicker
-        value={JSON.stringify(selectedTexture)}
-        onChange={(event) => {
-          const value = event.target.value;
-          selectTexture(value);
-        }}
-      />,
-      portal.current
-    );
-  };
-
   //checks if model was clicked
   const isClicked = index === focusedItem;
+  const mouseOver = state.hovered;
 
-  // console.log(`${index} rendered`);
-  // console.log(isClicked, index, focusedItem, index === focusedItem);
   const PanelProps = {
     type: "Wall",
-    textureState: selectedTexture,
-    setTextureState: selectTexture,
+    texture: state.texture,
+    scale: state.scale,
+    // setTextureState: selectTexture,
+    setTexture: dispatch,
+    setScale: dispatch,
     portal: portal.current,
   };
   return (
@@ -77,7 +82,7 @@ export default function Wall(props) {
         index={props.index}
         position={props.position}
         rotation={props.rotation}
-        scale={props.scale}
+        scale={state.scale}
         castShadow
         receiveShadow
         onClick={() => {
@@ -88,12 +93,7 @@ export default function Wall(props) {
         // userData={{ store }}
       >
         <boxGeometry attach="geometry" args={[15, 0.5, 5]} />
-        <meshStandardMaterial
-          attach="material-2"
-          {...texture}
-          // color={mouseOver ? hoverColor : "white"}
-          // wireframe={mouseOver ? true : false}
-        />
+        <meshStandardMaterial attach="material-2" {...texture} />
 
         <meshBasicMaterial attach="material-0" color="white" />
         <meshBasicMaterial attach="material-1" color="white" />

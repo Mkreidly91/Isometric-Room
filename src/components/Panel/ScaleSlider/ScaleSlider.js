@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 export const ScaleSlider = ({ min, max, value, onChange }) => {
   const input = useRef();
   const [state, setState] = useState(null);
-  console.log(state);
+  //   console.log(state);
 
   return (
     <div className="slidecontainer">
@@ -15,7 +15,7 @@ export const ScaleSlider = ({ min, max, value, onChange }) => {
         max={max}
         value={value}
         onChange={(event) => {
-          //   onChange(event);
+          onChange(event);
           const value = event.target.value;
           setState(event.target.value);
         }}
