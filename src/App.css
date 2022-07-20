@@ -1,5 +1,16 @@
 .main {
   width: 100vw;
-  height: 50vh;
+  height: 100vh;
   background-color: #6c6f75;
+  background-color: #dedfe4;
+  position: relative;
+}
+.portal {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: 5%;
+  right: 5%;
+  background-color: grey;
+  border-radius: 5%;
 }

@@ -11,14 +11,16 @@ export const SuspenseWrapper = (props) => {
     setSelectedItem(value);
   };
 
+  // const [s, setS] = useState([]);
+  // console.log(s);
+
   /* create walls */
   const walls = useMemo(() => {
     return createWalls({
       focus: selected,
       focusedItem: selectedItem,
-      portal: props.portal,
     });
-  }, [wallsList, selectedItem]);
+  }, [selectedItem, props.portal]);
   return (
     <Suspense fallback={null}>
       <Select box>{walls}</Select>

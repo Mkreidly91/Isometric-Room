@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Html, useGLTF, useSelect, useTexture } from "@react-three/drei";
+import React, { useContext, useRef, useState } from "react";
+import { Html, useGLTF, useSelect, useTexture, Edges } from "@react-three/drei";
 import { useHover } from "@use-gesture/react";
 import { Color } from "three";
 import { wrappingStyle } from "../../util";
@@ -7,29 +7,33 @@ import { textures } from "../../textures";
 import { TexturePicker } from "../TexturePicker/TexturePicker";
 import { createPortal } from "react-dom";
 import { useControls } from "leva";
-
+import { PortalContext } from "../../App";
 export default function Wall(props) {
-  //leva controls
-  // const { setScale, setRotation, setPosition } = useControls({
-  //   setScale: 1,
-  //   setRotation: [-Math.PI / 2, 0, 0],
-  //   setPosition: props.position,
-  // });
-  const select = useSelect();
-  const { textureMaps } = textures;
-  const [mouseOver, setMouseOver] = useState(false);
-  const hoverState = () => {
-    setMouseOver((prev) => !prev);
-  };
-  const hoverObjRef = useRef();
+  // leva controls
+  const { index, focus, focusedItem, scale, rotation, position } = props;
+  const item = useSelect();
 
+  // const [store, materialProps] = useControls(item, {
+  //   scale: { value: scale },
+  //   rotation: { value: rotation },
+  //   position: { value: position },
+  // });
+
+  const { textureMaps } = textures;
+  /*STATES*/
+  // HOVER STATE
+  const [mouseOver, setMouseOver] = useState(false);
   const bind = useHover(() => {
     hoverState();
   });
 
-  const color = new Color("hsl(135, 96%, 48%)");
-  const [isSelected, setIsSelected] = useState(false);
-  /* maps item index to it's selected texture */
+  const hoverState = () => {
+    setMouseOver((prev) => !prev);
+  };
+  const hoverObjRef = useRef();
+  const hoverColor = new Color("hsl(135, 96%, 48%)");
+
+  // TEXTURE STATE
   const [selectedTexture, setSelectedTexture] = useState(
     textureMaps["beigeWall"]
   );
@@ -37,11 +41,10 @@ export default function Wall(props) {
     setSelectedTexture(JSON.parse(value));
   };
   const texture = useTexture(selectedTexture);
-  const { index, focus, focusedItem } = props;
-
-  // checkIfSelected();
+  //wrapping mode of texture
   wrappingStyle({ texture: texture, mode: "repeat", ratio: [3, 1] });
-  console.log(props.portal);
+  const portal = useContext(PortalContext);
+
   const RenderToPortal = () => {
     return createPortal(
       <TexturePicker
@@ -51,10 +54,15 @@ export default function Wall(props) {
           selectTexture(value);
         }}
       />,
-      props.portal.current
+      portal.current
     );
   };
 
+  //checks if model was clicked
+  const isClicked = index === focusedItem;
+
+  console.log(`${index} rendered`);
+  // console.log(isClicked, index, focusedItem, index === focusedItem);
   return (
     <group>
       <mesh
@@ -70,22 +78,36 @@ export default function Wall(props) {
         }}
         ref={hoverObjRef}
         {...bind()}
+        // userData={{ store }}
       >
         <boxGeometry attach="geometry" args={[15, 0.5, 5]} />
         <meshStandardMaterial
           attach="material-2"
           {...texture}
-          color={mouseOver ? color : "white"}
+          // color={mouseOver ? hoverColor : "white"}
           // wireframe={mouseOver ? true : false}
         />
 
-        <meshBasicMaterial attach="material-0" color="black" />
-        <meshBasicMaterial attach="material-1" color="black" />
-        <meshBasicMaterial attach="material-3" color="black" />
-        <meshBasicMaterial attach="material-4" color="black" />
-        <meshBasicMaterial attach="material-5" color="black" />
+        <meshBasicMaterial attach="material-0" color="white" />
+        <meshBasicMaterial attach="material-1" color="white" />
+        <meshBasicMaterial attach="material-3" color="white" />
+        <meshBasicMaterial attach="material-4" color="white" />
+        <meshBasicMaterial attach="material-5" color="white" />
+
+        <Edges
+          visible={mouseOver || isClicked ? true : false}
+          scale={[1.1, 1.1, 1]}
+          color={isClicked ? "red" : "black"}
+          renderOrder={1000}
+        >
+          {/* <meshBasicMaterial
+              transparent
+              
+              depthTest={false}
+            /> */}
+        </Edges>
       </mesh>
-      <Html>{index === focusedItem && <RenderToPortal />}</Html>
+      <Html>{isClicked && <RenderToPortal />}</Html>
     </group>
   );
 }

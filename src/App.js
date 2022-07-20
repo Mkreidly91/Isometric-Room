@@ -1,9 +1,9 @@
-import React, { useState, useMemo, Suspense, useRef } from "react";
+import React, { createContext, useContext, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";
-import "./App.css";
 import { SuspenseWrapper } from "./components/SuspenseWrapper/SuspenseWrapper";
+import "./App.css";
 
 //import models and plane
 import Tiles from "./components/Tiles/Tiles";
@@ -11,11 +11,15 @@ import Tiles from "./components/Tiles/Tiles";
 //import textures
 import { textures } from "./textures";
 
+//a React.context to be passed down to all models
+export const PortalContext = createContext();
+
 const { blackWhiteTiles } = textures.textureMaps;
 
 const App = () => {
   //Camera
-  const dom = useRef();
+  const portal = useRef();
+
   const camera = new THREE.PerspectiveCamera(
     60,
     window.innerWidth / window.innerHeight,
@@ -24,7 +28,7 @@ const App = () => {
   );
   camera.position.set(-30, 50, -30);
   camera.lookAt(new THREE.Vector3(0, 0, 0));
-
+  console.log("Parent rendered");
   return (
     <div className="main">
       <Canvas camera={camera} dpr={window.devicePixelRatio}>
@@ -38,9 +42,11 @@ const App = () => {
         />
         <OrbitControls />
         <Tiles texture={blackWhiteTiles} />
-        <SuspenseWrapper portal={dom} />
+        <PortalContext.Provider value={portal}>
+          <SuspenseWrapper />
+        </PortalContext.Provider>
       </Canvas>
-      <div className="portal" ref={dom}></div>
+      <div className="portal" ref={portal}></div>
     </div>
   );
 };
