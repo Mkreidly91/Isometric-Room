@@ -4,9 +4,10 @@ import { useHover } from "@use-gesture/react";
 import { Color } from "three";
 import { wrappingStyle } from "../../util";
 import { textures } from "../../textures";
-import { TexturePicker } from "../TexturePicker/TexturePicker";
+import { TexturePicker } from "../Panel/TexturePicker/TexturePicker";
 import { createPortal } from "react-dom";
 import { useControls } from "leva";
+import { Panel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
 export default function Wall(props) {
   // leva controls
@@ -61,8 +62,14 @@ export default function Wall(props) {
   //checks if model was clicked
   const isClicked = index === focusedItem;
 
-  console.log(`${index} rendered`);
+  // console.log(`${index} rendered`);
   // console.log(isClicked, index, focusedItem, index === focusedItem);
+  const PanelProps = {
+    type: "Wall",
+    textureState: selectedTexture,
+    setTextureState: selectTexture,
+    portal: portal.current,
+  };
   return (
     <group>
       <mesh
@@ -99,15 +106,10 @@ export default function Wall(props) {
           scale={[1.1, 1.1, 1]}
           color={isClicked ? "red" : "black"}
           renderOrder={1000}
-        >
-          {/* <meshBasicMaterial
-              transparent
-              
-              depthTest={false}
-            /> */}
-        </Edges>
+        ></Edges>
       </mesh>
-      <Html>{isClicked && <RenderToPortal />}</Html>
+      {/* <Html>{isClicked && <RenderToPortal />}</Html> */}
+      <Html>{isClicked && <Panel {...PanelProps} />}</Html>
     </group>
   );
 }

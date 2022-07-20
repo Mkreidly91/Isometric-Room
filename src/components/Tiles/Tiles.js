@@ -12,7 +12,8 @@ export default function Tiles(props) {
       args={[75, 75]}
       rotation={[-Math.PI / 2, 0, 0]}
     >
-      <meshStandardMaterial {...texture} normalMap-encoding={LinearEncoding} />
+      {/* <meshStandardMaterial {...texture} normalMap-encoding={LinearEncoding} /> */}
+      <meshBasicMaterial color="grey" />
     </Plane>
   );
 }

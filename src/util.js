@@ -11,8 +11,7 @@ export const wrappingStyle = (args) => {
   const [repeatX, repeatY] = ratio;
   if (!mode || mode === "clampToEdge") {
     wrappingMode = ClampToEdgeWrapping;
-  }
-  if (mode === "repeat") {
+  } else if (mode === "repeat") {
     wrappingMode = RepeatWrapping;
   } else if (mode === "mirroredRepeat") {
     wrappingMode = MirroredRepeatWrapping;
