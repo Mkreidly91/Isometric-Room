@@ -28,10 +28,27 @@ const WallPanel = (props) => {
   );
 };
 
+const RandomPanel = (props) => {
+  const { scale, setScale, color, setColor } = props;
+  return (
+    <ScaleSlider
+      min={0.1}
+      max={0.5}
+      step={0.001}
+      value={scale}
+      onChange={(event) => {
+        const value = event.target.value;
+        setScale({ type: "change-scale", payload: value });
+      }}
+    />
+  );
+};
 export const Panel = (props) => {
   // const portal = useContext(PortalContext);
   const { type, portal } = props;
   if (type === "Wall") {
     return createPortal(<WallPanel {...props} />, portal);
+  } else if (type === "random object") {
+    return createPortal(<RandomPanel {...props} />, portal);
   }
 };

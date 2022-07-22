@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
-import { OrbitControls } from "@react-three/drei";
 import { SuspenseWrapper } from "./components/SuspenseWrapper/SuspenseWrapper";
 import "./App.css";
 
@@ -28,7 +27,7 @@ const App = () => {
   );
   camera.position.set(-30, 50, -30);
   camera.lookAt(new THREE.Vector3(0, 0, 0));
-  console.log("Parent rendered");
+
   return (
     <div className="main">
       <Canvas camera={camera} dpr={window.devicePixelRatio}>
@@ -40,7 +39,7 @@ const App = () => {
           position={[-10, 15, -10]}
           castShadow
         />
-        <OrbitControls />
+
         <Tiles texture={blackWhiteTiles} />
         <PortalContext.Provider value={portal}>
           <SuspenseWrapper />

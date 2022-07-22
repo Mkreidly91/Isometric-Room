@@ -3,7 +3,7 @@ import {
   ClampToEdgeWrapping,
   MirroredRepeatWrapping,
 } from "three";
-
+import { useState, useRef, useEffect } from "react";
 //Control the wrapping style on texures,mainly used for tiling textures on surfaces.
 export const wrappingStyle = (args) => {
   const { texture, mode, ratio } = args;
@@ -22,4 +22,29 @@ export const wrappingStyle = (args) => {
     map.wrapT = wrappingMode;
     map.repeat.set(repeatX, repeatY);
   });
+};
+
+//controls for the transform controls
+export const useTransformControls = () => {
+  const TransformControlsRef = useRef();
+  let [mode, setMode] = useState("translate");
+  useEffect(() => {
+    document.addEventListener("keydown", (event) => {
+      switch (event.key) {
+        case "r":
+          setMode("rotate");
+          break;
+        case "t":
+          setMode("translate");
+          break;
+        case "s":
+          setMode("scale");
+          break;
+        case "Escape":
+          TransformControlsRef.current.reset();
+          break;
+      }
+    });
+  }, [mode]);
+  return [TransformControlsRef, mode];
 };

@@ -7,8 +7,8 @@
 }
 .portal {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   top: 5%;
   right: 5%;
   background-color: grey;

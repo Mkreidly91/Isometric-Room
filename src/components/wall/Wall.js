@@ -4,9 +4,6 @@ import { useHover } from "@use-gesture/react";
 import { Color } from "three";
 import { wrappingStyle } from "../../util";
 import { textures } from "../../textures";
-import { TexturePicker } from "../Panel/TexturePicker/TexturePicker";
-import { createPortal } from "react-dom";
-import { useControls } from "leva";
 import { Panel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
 
@@ -36,6 +33,7 @@ const reducer = (state, action) => {
 export default function Wall(props) {
   // leva controls
   const { index, focus, focusedItem, scale, rotation, position } = props;
+
   const item = useSelect();
 
   // const [store, materialProps] = useControls(item, {
@@ -66,7 +64,7 @@ export default function Wall(props) {
   const isClicked = index === focusedItem;
   const mouseOver = state.hovered;
 
-  const PanelProps = {
+  const panelProps = {
     type: "Wall",
     texture: state.texture,
     scale: state.scale,
@@ -106,12 +104,10 @@ export default function Wall(props) {
           scale={[1.1, 1.1, 1]}
           color={isClicked ? "red" : "black"}
           renderOrder={1000}
-        ></Edges>
+        />
       </mesh>
       {/* <Html>{isClicked && <RenderToPortal />}</Html> */}
-      <Html>{isClicked && <Panel {...PanelProps} />}</Html>
+      <Html>{isClicked && <Panel {...panelProps} />}</Html>
     </group>
   );
 }
-
-useGLTF.preload("wall/wall.glb");

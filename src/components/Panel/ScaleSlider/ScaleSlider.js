@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-export const ScaleSlider = ({ min, max, value, onChange }) => {
+export const ScaleSlider = ({ min, max, value, onChange, step }) => {
   const input = useRef();
   const [state, setState] = useState(null);
   //   console.log(state);
@@ -19,7 +19,7 @@ export const ScaleSlider = ({ min, max, value, onChange }) => {
           const value = event.target.value;
           setState(event.target.value);
         }}
-        step={0.1}
+        step={step ? step : 0.1}
       />
     </div>
   );
