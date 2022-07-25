@@ -1,4 +1,4 @@
-import { Select } from "@react-three/drei";
+import { PerspectiveCamera, Select } from "@react-three/drei";
 import React, {
   useState,
   useMemo,
@@ -9,8 +9,10 @@ import React, {
 } from "react";
 import { createWalls } from "../../wallCreator";
 import { TransformControls, OrbitControls } from "@react-three/drei";
+import { Vector3 } from "three";
 
 import Table from "../Table/Table";
+import IsometericRoom from "../IsometricRoom/IsometricRoom";
 import { useTransformControls } from "../../util";
 
 export const SuspenseWrapper = (props) => {
@@ -34,17 +36,28 @@ export const SuspenseWrapper = (props) => {
   const [TransformControlsRef, mode] = useTransformControls();
   return (
     <Suspense fallback={null}>
-      <OrbitControls makeDefault />
+      <PerspectiveCamera
+        fov={60}
+        aspect={window.innerWidth / window.innerHeight}
+        near={0.1}
+        far={1000}
+        position={[-30, 50, -30]}
+      />
+      <OrbitControls
+        makeDefault
+        target={s[0] ? s[0].position : new Vector3(0, 0, 0)}
+      />
       <TransformControls
         ref={TransformControlsRef}
         mode={mode}
         object={s[0]}
-        enabled={s[0] ? true : false}
+        // enabled={s[0] ? true : false}
       />
-
       <Select box onChange={setS}>
-        {walls}
-        <Table focus={selected} index="table-0" focusedItem={selectedItem} />
+        <IsometericRoom scale={5} />
+        <Table />
+        {/* {walls}
+        <Table focus={selected} index="table-0" focusedItem={selectedItem} /> */}
       </Select>
     </Suspense>
   );

@@ -8,7 +8,7 @@ import { PortalContext } from "../../App";
 const initialState = {
   clicked: false,
   hovered: false,
-  scale: 0.1,
+  scale: 1,
   color: "",
 };
 const reducer = (state, action) => {
@@ -28,13 +28,14 @@ const reducer = (state, action) => {
   }
 };
 export default function Table(props) {
+  const selected = useSelect()[0];
   const { index, focus, focusedItem } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const portal = useContext(PortalContext);
   const panelProps = {
     type: "random object",
     scale: state.scale,
-    setScale: dispatch,
+    dispatch: dispatch,
     portal: portal.current,
   };
   const group = useRef();
@@ -52,26 +53,28 @@ export default function Table(props) {
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.defaultMaterial.geometry}
-        material={materials.Default}
+        geometry={nodes.Dining_Table.geometry}
+        // material={nodes.Dining_Table.material}
+        position={[-0.19, 0.38, 1.32]}
+        rotation={[Math.PI, 0, Math.PI]}
         scale={state.scale}
         ref={hoverObjRef}
         onClick={() => {
-          focus(index);
+          // focus(index);
         }}
         {...bind()}
       >
-        {/* <meshStandardMaterial
+        <meshStandardMaterial
           attach="material"
-          color="#966F33"
+          color={state.color}
           reflectivity={1}
-        /> */}
-        <Edges
+        />
+        {/* <Edges
           visible={mouseOver || isClicked ? true : false}
           scale={[1.1, 1.1, 1.1]}
           color={isClicked ? "red" : "black"}
           renderOrder={1000}
-        />
+        /> */}
       </mesh>
       <Html>{isClicked && <Panel {...panelProps} />}</Html>
     </group>

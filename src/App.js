@@ -3,9 +3,10 @@ import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { SuspenseWrapper } from "./components/SuspenseWrapper/SuspenseWrapper";
 import "./App.css";
-
+import { useHelper } from "@react-three/drei";
 //import models and plane
 import Tiles from "./components/Tiles/Tiles";
+import { PointLightHelper } from "three";
 
 //import textures
 import { textures } from "./textures";
@@ -18,6 +19,7 @@ const { blackWhiteTiles } = textures.textureMaps;
 const App = () => {
   //Camera
   const portal = useRef();
+  const light = useRef();
 
   const camera = new THREE.PerspectiveCamera(
     60,
@@ -25,18 +27,18 @@ const App = () => {
     0.1,
     1000
   );
-  camera.position.set(-30, 50, -30);
+  camera.position.set(50, 60, 50);
   camera.lookAt(new THREE.Vector3(0, 0, 0));
 
   return (
     <div className="main">
-      <Canvas camera={camera} dpr={window.devicePixelRatio}>
-        <ambientLight />
+      <Canvas frameloop="demand" camera={camera} dpr={window.devicePixelRatio}>
+        <ambientLight intensity={1} />
         <pointLight
+          ref={light}
           intensity={1}
-          angle={1}
           penumbra={1}
-          position={[-10, 15, -10]}
+          position={[30, 50, 50]}
           castShadow
         />
 

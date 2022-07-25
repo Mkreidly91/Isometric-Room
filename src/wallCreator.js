@@ -10,7 +10,7 @@ export const wallsList = [
     scale: 2,
   },
   {
-    position: [10, 5, -10],
+    position: [14.45, 5, -15.6],
     rotation: [-Math.PI / 2, 0, Math.PI / 2],
     scale: 2,
   },
