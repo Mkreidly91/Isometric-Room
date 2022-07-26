@@ -25,15 +25,8 @@ export const SuspenseWrapper = (props) => {
 
   const [s, setS] = useState([]);
 
-  /* create walls */
-  const walls = useMemo(() => {
-    return createWalls({
-      focus: selected,
-      focusedItem: selectedItem,
-    });
-  }, [selectedItem, props.portal]);
+  const [TransformControlsRef, mode, enabled] = useTransformControls();
 
-  const [TransformControlsRef, mode] = useTransformControls();
   return (
     <Suspense fallback={null}>
       <PerspectiveCamera
@@ -47,17 +40,21 @@ export const SuspenseWrapper = (props) => {
         makeDefault
         target={s[0] ? s[0].position : new Vector3(0, 0, 0)}
       />
-      <TransformControls
-        ref={TransformControlsRef}
-        mode={mode}
-        object={s[0]}
-        // enabled={s[0] ? true : false}
-      />
-      <Select box onChange={setS}>
+      {enabled && s && (
+        <TransformControls
+          ref={TransformControlsRef}
+          mode={mode}
+          object={s[0]}
+          enabled={true}
+        />
+      )}
+
+      <Select
+        onChange={(value) => {
+          !enabled && setS(value);
+        }}
+      >
         <IsometericRoom scale={5} />
-        <Table />
-        {/* {walls}
-        <Table focus={selected} index="table-0" focusedItem={selectedItem} /> */}
       </Select>
     </Suspense>
   );

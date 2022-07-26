@@ -1,8 +1,9 @@
 import React from "react";
 import { useState, useRef } from "react";
 
-export const ColorPicker = ({ value, onChange }) => {
+export const ColorPicker = ({ onChange, color }) => {
   const [state, setState] = useState();
+  console.log();
   const input = useRef();
   return (
     <div>
@@ -10,7 +11,10 @@ export const ColorPicker = ({ value, onChange }) => {
         ref={input}
         type="color"
         id="ColorPicker"
-        onChange={onChange}
+        onInput={(value) => {
+          onChange(value);
+          setState(color);
+        }}
       ></input>
     </div>
   );

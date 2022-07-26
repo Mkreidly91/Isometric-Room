@@ -33,7 +33,7 @@ const RandomPanel = (props) => {
   return (
     <div>
       <ScaleSlider
-        min={1}
+        min={3}
         max={5}
         step={0.1}
         value={scale}
@@ -55,7 +55,7 @@ const RandomPanel = (props) => {
 
 export const Panel = (props) => {
   // const portal = useContext(PortalContext);
-  const { type, portal, name, dispatch } = props;
+  const { type, portal, name, dispatch, color } = props;
 
   if (type === "Wall") {
     return createPortal(<WallPanel {...props} />, portal);
@@ -68,6 +68,7 @@ export const Panel = (props) => {
           const value = event.target.value;
           props.dispatch({ type: `${name}Color`, payload: value });
         }}
+        color={color}
       />,
       portal
     );

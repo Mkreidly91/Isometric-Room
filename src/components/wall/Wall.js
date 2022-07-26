@@ -101,7 +101,7 @@ export default function Wall(props) {
 
         <Edges
           visible={mouseOver || isClicked ? true : false}
-          scale={[1.1, 1.1, 1]}
+          scale={[1.1, 1.1, 1.1]}
           color={isClicked ? "red" : "black"}
           renderOrder={1000}
         />

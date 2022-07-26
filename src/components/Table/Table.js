@@ -8,7 +8,7 @@ import { PortalContext } from "../../App";
 const initialState = {
   clicked: false,
   hovered: false,
-  scale: 1,
+  scale: 3,
   color: "",
 };
 const reducer = (state, action) => {
@@ -29,7 +29,7 @@ const reducer = (state, action) => {
 };
 export default function Table(props) {
   const selected = useSelect()[0];
-  const { index, focus, focusedItem } = props;
+  const { type } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const portal = useContext(PortalContext);
   const panelProps = {
@@ -45,8 +45,6 @@ export default function Table(props) {
   });
   const hoverObjRef = useRef();
   //checks if model was clicked
-  const isClicked = index === focusedItem;
-  const mouseOver = state.hovered;
 
   return (
     <group ref={group} {...props} dispose={null}>
@@ -76,7 +74,7 @@ export default function Table(props) {
           renderOrder={1000}
         /> */}
       </mesh>
-      <Html>{isClicked && <Panel {...panelProps} />}</Html>
+      <Html>{selected && <Panel {...panelProps} />}</Html>
     </group>
   );
 }

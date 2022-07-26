@@ -4,6 +4,7 @@ import {
   MirroredRepeatWrapping,
 } from "three";
 import { useState, useRef, useEffect } from "react";
+import { TransformControls } from "@react-three/drei";
 //Control the wrapping style on texures,mainly used for tiling textures on surfaces.
 export const wrappingStyle = (args) => {
   const { texture, mode, ratio } = args;
@@ -28,6 +29,7 @@ export const wrappingStyle = (args) => {
 export const useTransformControls = () => {
   const TransformControlsRef = useRef();
   let [mode, setMode] = useState("translate");
+  let [enabled, setEnabled] = useState(false);
   useEffect(() => {
     document.addEventListener("keydown", (event) => {
       switch (event.key) {
@@ -40,11 +42,14 @@ export const useTransformControls = () => {
         case "s":
           setMode("scale");
           break;
+        case "e":
+          setEnabled((prev) => !prev);
+          break;
         case "Escape":
           TransformControlsRef.current.reset();
           break;
       }
     });
   }, [mode]);
-  return [TransformControlsRef, mode];
+  return [TransformControlsRef, mode, enabled];
 };
