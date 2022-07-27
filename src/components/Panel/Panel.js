@@ -65,10 +65,9 @@ export const Panel = (props) => {
     return createPortal(
       <ColorPicker
         color={color}
-        onChange={(value) => {
-          props.dispatch({ type: `${name}Color`, payload: value });
+        setColor={(value) => {
+          dispatch({ type: `${name}Color`, payload: value });
         }}
-        color={color}
       />,
       portal
     );

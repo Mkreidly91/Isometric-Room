@@ -1,15 +1,14 @@
 import React from "react";
-import { useState, useRef } from "react";
 import { SketchPicker } from "react-color";
 
-export const ColorPicker = ({ onChange, color }) => {
+export const ColorPicker = ({ setColor, color }) => {
   return (
     <div>
       <SketchPicker
         disableAlpha
         color={color}
         onChange={(value) => {
-          onChange(value.hex);
+          setColor(value.hex);
         }}
       />
     </div>

@@ -4,6 +4,8 @@ import React, {
   useReducer,
   useState,
   useEffect,
+  useLayoutEffect,
+  useMemo,
 } from "react";
 import { Html, useGLTF, useSelect } from "@react-three/drei";
 import { Panel } from "../Panel/Panel";
@@ -26,7 +28,7 @@ const colorReducer = (state, action) => {
       return { ...state, lowerFloorColor: action.payload };
     case "sideWallColor":
       return { ...state, sideWallColor: action.payload };
-    case "lowerWallMainColor":
+    case "lowerWallColor":
       return { ...state, lowerWallMainColor: action.payload };
     case "bedWallColor":
       return { ...state, bedWallColor: action.payload };
@@ -62,7 +64,7 @@ const hoverReducer = (state, action) => {
       return { ...state, lowerFloorHover: !state.lowerFloorHover };
     case "sideWallHover":
       return { ...state, sideWallHover: !state.sideWallHover };
-    case "lowerWallMainHover":
+    case "lowerWallHover":
       return { ...state, lowerWallMainHover: !state.lowerWallMainHover };
     case "bedWallHover":
       return { ...state, bedWallHover: !state.bedWallHover };
@@ -96,7 +98,7 @@ const clickReducer = (state, action) => {
       return { ...state, lowerFloorClick: !state.lowerFloorClick };
     case "sideWallClick":
       return { ...state, sideWallClick: !state.sideWallClick };
-    case "lowerWallMainClick":
+    case "lowerWallClick":
       return { ...state, lowerWallMainClick: !state.lowerWallMainClick };
     case "bedWallClick":
       return { ...state, bedWallClick: !state.bedWallClick };
@@ -115,10 +117,23 @@ const clickReducer = (state, action) => {
   }
 };
 
+const names = [
+  "lowerFloor",
+  "sideWall",
+  "stairs",
+  "handRail",
+  "lowerWall",
+  "bedWall",
+  "upperFloor",
+  "windowFrames",
+];
+
 export default function IsometericRoom(props) {
   const { nodes, materials } = useGLTF("/Isometric-room/IsometricRoom.glb");
   const portal = useContext(PortalContext);
   const selected = useSelect()[0];
+  const isSelected = selected && names.includes(selected.name);
+  // const isSelected = selected && names.includes(selected.name);
 
   const [colorState, colorDispatch] = useReducer(
     colorReducer,
@@ -167,8 +182,8 @@ export default function IsometericRoom(props) {
   } = clickState;
 
   useEffect(() => {
-    if (!selected) clickDispatch({ type: "reset" });
-    else {
+    if (!isSelected) clickDispatch({ type: "reset" });
+    else if (isSelected) {
       clickDispatch({ type: "reset" });
       clickDispatch({ type: `${selected.name}Click` });
     }
@@ -192,15 +207,14 @@ export default function IsometericRoom(props) {
       const name = event.eventObject.name;
       hoverDispatch({ type: `${name}Hover` });
     },
-    // onClick: (event) => event.stopPropagation(),
   };
 
   return (
     <group {...props} dispose={null}>
-      <Html>{selected && <Panel {...panelProps} />}</Html>
+      <Html>{isSelected && <Panel {...panelProps} />}</Html>
       <mesh
         objectType="wall"
-        name="lowerFloor"
+        name={names[0]}
         castShadow
         receiveShadow
         geometry={nodes.Lower_Floor.geometry}
@@ -221,7 +235,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        name="sideWall"
+        name={names[1]}
         castShadow
         receiveShadow
         geometry={nodes.Side_wall_Total.geometry}
@@ -243,7 +257,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        name="stairs"
+        name={names[2]}
         castShadow
         receiveShadow
         geometry={nodes.Stairs.geometry}
@@ -264,7 +278,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        name="handRail"
+        name={names[3]}
         castShadow
         receiveShadow
         geometry={nodes.Handrail.geometry}
@@ -286,7 +300,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        name="lowerWallMain"
+        name={names[4]}
         geometry={nodes.Lower_Wall_Main.geometry}
         position={[-2.55, 2.5, 0]}
         {...hoverProps}
@@ -305,7 +319,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        name="bedWall"
+        name={names[5]}
         castShadow
         receiveShadow
         geometry={nodes.Bedwall_Section.geometry}
@@ -326,7 +340,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        name="upperFloor"
+        name={names[6]}
         castShadow
         receiveShadow
         geometry={nodes.Upper_Floor.geometry}
@@ -347,7 +361,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        name="windowFrames"
+        name={names[7]}
         castShadow
         receiveShadow
         geometry={nodes.Window_Frames.geometry}

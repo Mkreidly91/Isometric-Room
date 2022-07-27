@@ -1,21 +1,14 @@
-import React, {
-  useContext,
-  useReducer,
-  useRef,
-  useState,
-  useEffect,
-} from "react";
+import React, { useContext, useReducer, useRef } from "react";
 import { Html, useGLTF, useSelect, useTexture, Edges } from "@react-three/drei";
-import { useHover } from "@use-gesture/react";
-import { Matrix4 } from "three";
+
 import { Panel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
 
 const initialState = {
   clicked: false,
   hovered: false,
-  scale: 3,
-  color: "",
+  scale: 5,
+  color: "#FFFFFF",
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -25,7 +18,7 @@ const reducer = (state, action) => {
       return { ...state, hovered: !state.hovered };
     case "change-scale":
       return { ...state, scale: action.payload };
-    case "change-color":
+    case "tableColor":
       return { ...state, color: action.payload };
     case "reset":
       return initialState;
@@ -33,54 +26,68 @@ const reducer = (state, action) => {
       throw new Error(`Unknown action type: ${action.type}`);
   }
 };
+const name = "table";
+
 export default function Table(props) {
   const selected = useSelect()[0];
-  const { type } = props;
+  const isSelected = selected && selected.name === name;
+
   const [state, dispatch] = useReducer(reducer, initialState);
+
   const portal = useContext(PortalContext);
-  const panelProps = {
-    type: "random object",
-    scale: state.scale,
+
+  const group = useRef();
+  const { nodes, materials } = useGLTF("Table/Table.glb");
+
+  const panelProps = isSelected && {
+    name: name,
+    color: state.color,
     dispatch: dispatch,
     portal: portal.current,
   };
-  const group = useRef();
-  const { nodes, materials } = useGLTF("/Table/Table.glb");
-  const bind = useHover(() => {
-    dispatch({ type: "hovered" });
-  });
+
+  const hoverProps = {
+    onPointerEnter: (event) => {
+      event.stopPropagation();
+      const name = event.eventObject.name;
+      dispatch({ type: `${name}Hover` });
+    },
+    onPointerLeave: (event) => {
+      event.stopPropagation();
+      const name = event.eventObject.name;
+      dispatch({ type: `${name}Hover` });
+    },
+  };
 
   return (
     <group ref={group} {...props} dispose={null}>
       <mesh
-        name="table"
+        name={name}
         castShadow
         receiveShadow
         geometry={nodes.Dining_Table.geometry}
-        // material={nodes.Dining_Table.material}
-        position={[-0.19, 0.38, 1.32]}
+        position={[-0.19, 1.9, 1.32]}
         rotation={[Math.PI, 0, Math.PI]}
+        // {...hoverProps}
         scale={state.scale}
-        onClick={() => {
-          // focus(index);
-        }}
-        {...bind()}
       >
         <meshStandardMaterial
           attach="material"
           color={state.color}
           reflectivity={1}
         />
-        {/* <Edges
-          visible={mouseOver || isClicked ? true : false}
-          scale={[1.1, 1.1, 1.1]}
-          color={isClicked ? "red" : "black"}
-          renderOrder={1000}
-        /> */}
+        {isSelected && (
+          <Edges
+            visible={true}
+            scale={[1, 1, 1]}
+            color={"red"}
+            renderOrder={1000}
+          />
+        )}
       </mesh>
-      <Html>{selected && <Panel {...panelProps} />}</Html>
+      <Html>{isSelected && <Panel {...panelProps} />}</Html>
     </group>
   );
 }
 
-useGLTF.preload("/Table/Table.glb");
+useGLTF.preload("Table/Table.glb");
