@@ -24,6 +24,7 @@ export const SuspenseWrapper = (props) => {
   };
 
   const [s, setS] = useState([]);
+  s[0] && console.log(s[0].name);
 
   const [TransformControlsRef, mode, enabled] = useTransformControls();
 
@@ -50,11 +51,13 @@ export const SuspenseWrapper = (props) => {
       )}
 
       <Select
+        box
         onChange={(value) => {
           !enabled && setS(value);
         }}
       >
         <IsometericRoom scale={5} />
+        {/* <Table /> */}
       </Select>
     </Suspense>
   );

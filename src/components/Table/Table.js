@@ -1,7 +1,13 @@
-import React, { useContext, useReducer, useRef, useState } from "react";
+import React, {
+  useContext,
+  useReducer,
+  useRef,
+  useState,
+  useEffect,
+} from "react";
 import { Html, useGLTF, useSelect, useTexture, Edges } from "@react-three/drei";
 import { useHover } from "@use-gesture/react";
-
+import { Matrix4 } from "three";
 import { Panel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
 
@@ -43,12 +49,12 @@ export default function Table(props) {
   const bind = useHover(() => {
     dispatch({ type: "hovered" });
   });
-  const hoverObjRef = useRef();
-  //checks if model was clicked
 
+  console.log(selected, meshRef);
   return (
     <group ref={group} {...props} dispose={null}>
       <mesh
+        name="table"
         castShadow
         receiveShadow
         geometry={nodes.Dining_Table.geometry}

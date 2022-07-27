@@ -192,6 +192,7 @@ export default function IsometericRoom(props) {
       const name = event.eventObject.name;
       hoverDispatch({ type: `${name}Hover` });
     },
+    // onClick: (event) => event.stopPropagation(),
   };
 
   return (
