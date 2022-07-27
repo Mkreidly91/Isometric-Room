@@ -64,8 +64,8 @@ export const Panel = (props) => {
   } else {
     return createPortal(
       <ColorPicker
-        onChange={(event) => {
-          const value = event.target.value;
+        color={color}
+        onChange={(value) => {
           props.dispatch({ type: `${name}Color`, payload: value });
         }}
         color={color}

@@ -50,7 +50,6 @@ export default function Table(props) {
     dispatch({ type: "hovered" });
   });
 
-  console.log(selected, meshRef);
   return (
     <group ref={group} {...props} dispose={null}>
       <mesh
@@ -62,7 +61,6 @@ export default function Table(props) {
         position={[-0.19, 0.38, 1.32]}
         rotation={[Math.PI, 0, Math.PI]}
         scale={state.scale}
-        ref={hoverObjRef}
         onClick={() => {
           // focus(index);
         }}

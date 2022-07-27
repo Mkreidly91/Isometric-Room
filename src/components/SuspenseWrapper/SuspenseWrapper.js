@@ -24,7 +24,7 @@ export const SuspenseWrapper = (props) => {
   };
 
   const [s, setS] = useState([]);
-  s[0] && console.log(s[0].name);
+  // s[0] && console.log(s[0].name);
 
   const [TransformControlsRef, mode, enabled] = useTransformControls();
 

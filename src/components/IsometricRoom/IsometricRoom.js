@@ -247,7 +247,7 @@ export default function IsometericRoom(props) {
         castShadow
         receiveShadow
         geometry={nodes.Stairs.geometry}
-        position={[1.25, 1, -1]}
+        position={[1.25, 1.1, -1.1]}
         {...hoverProps}
       >
         <meshStandardMaterial
