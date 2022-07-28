@@ -68,7 +68,7 @@ export default function Table(props) {
         geometry={nodes.Dining_Table.geometry}
         position={[-0.19, 1.9, 1.32]}
         rotation={[Math.PI, 0, Math.PI]}
-        // {...hoverProps}
+        {...hoverProps}
         scale={state.scale}
       >
         <meshStandardMaterial
