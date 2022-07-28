@@ -50,12 +50,12 @@ export default function Table(props) {
     onPointerEnter: (event) => {
       event.stopPropagation();
       const name = event.eventObject.name;
-      dispatch({ type: `${name}Hover` });
+      dispatch({ type: `hovered` });
     },
     onPointerLeave: (event) => {
       event.stopPropagation();
       const name = event.eventObject.name;
-      dispatch({ type: `${name}Hover` });
+      dispatch({ type: `hovered` });
     },
   };
 
