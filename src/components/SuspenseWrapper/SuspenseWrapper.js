@@ -16,16 +16,11 @@ import IsometericRoom from "../IsometricRoom/IsometricRoom";
 import { useTransformControls } from "../../util";
 
 export const SuspenseWrapper = (props) => {
-  /* STATES */
-  /* stores the selected item's index */
-  const [selectedItem, setSelectedItem] = useState(null);
-  const selected = (value) => {
-    setSelectedItem(value);
-  };
-
   const [s, setS] = useState([]);
+  const selectedItem = s[0];
 
-  const [TransformControlsRef, mode, enabled] = useTransformControls();
+  const [TransformControlsRef, mode, enabled] =
+    useTransformControls(selectedItem);
 
   return (
     <Suspense fallback={null}>
@@ -51,9 +46,8 @@ export const SuspenseWrapper = (props) => {
 
       <Select
         box
-        onPointerUp={(event) => {
-          event.stopPropagation();
-          !enabled && setS([event.object]);
+        onChange={(value) => {
+          !enabled && setS(value);
         }}
       >
         <IsometericRoom scale={5} />

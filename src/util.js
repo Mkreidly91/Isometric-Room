@@ -26,12 +26,18 @@ export const wrappingStyle = (args) => {
 };
 
 //controls for the transform controls
-export const useTransformControls = () => {
+export const useTransformControls = (selected) => {
   const TransformControlsRef = useRef();
   let [mode, setMode] = useState("translate");
   let [enabled, setEnabled] = useState(false);
+
   useEffect(() => {
-    document.addEventListener("keydown", (event) => {
+    if (!selected) {
+      setEnabled(false);
+      return;
+    }
+    console.log("i ran the rest");
+    const handleKeyUp = (event) => {
       switch (event.key) {
         case "r":
           setMode("rotate");
@@ -49,7 +55,11 @@ export const useTransformControls = () => {
           TransformControlsRef.current.reset();
           break;
       }
-    });
-  }, [mode]);
+    };
+    document.addEventListener("keyup", handleKeyUp);
+    return () => {
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [selected]);
   return [TransformControlsRef, mode, enabled];
 };

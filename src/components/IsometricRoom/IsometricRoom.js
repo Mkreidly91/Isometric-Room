@@ -133,7 +133,14 @@ export default function IsometericRoom(props) {
   const portal = useContext(PortalContext);
   const selected = useSelect()[0];
   const isSelected = selected && names.includes(selected.name);
-  // const isSelected = selected && names.includes(selected.name);
+
+  useEffect(() => {
+    if (!isSelected) clickDispatch({ type: "reset" });
+    else if (isSelected) {
+      clickDispatch({ type: "reset" });
+      clickDispatch({ type: `${selected.name}Click` });
+    }
+  }, [selected]);
 
   const [colorState, colorDispatch] = useReducer(
     colorReducer,
@@ -180,14 +187,6 @@ export default function IsometericRoom(props) {
     lowerWallMainClick,
     upperFloorClick,
   } = clickState;
-
-  useEffect(() => {
-    if (!isSelected) clickDispatch({ type: "reset" });
-    else if (isSelected) {
-      clickDispatch({ type: "reset" });
-      clickDispatch({ type: `${selected.name}Click` });
-    }
-  }, [selected]);
 
   const panelProps = selected && {
     name: selected.name,
