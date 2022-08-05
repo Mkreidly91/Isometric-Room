@@ -5,23 +5,37 @@ import { TexturePicker } from "./TexturePicker/TexturePicker";
 import { ScaleSlider } from "./ScaleSlider/ScaleSlider";
 import { ColorPicker } from "./ColorPicker/ColorPicker";
 const WallPanel = (props) => {
-  const { texture, setTexture, scale, setScale } = props;
+  const {
+    texture,
+
+    scale,
+    setScale,
+    color,
+    colorDispatch,
+    textureDispatch,
+    name,
+  } = props;
   return (
     <div>
       <TexturePicker
-        value={JSON.stringify(texture)}
-        onChange={(event) => {
-          const value = JSON.parse(event.target.value);
-          setTexture({ type: "change-texture", payload: value });
+        // value={JSON.stringify(texture)}
+        setTexture={(value) => {
+          textureDispatch({ type: `${name}Texture`, payload: value });
         }}
       />
-      <ScaleSlider
+      {/* <ScaleSlider
         min={1}
         max={5}
         value={scale}
         onChange={(event) => {
           const value = event.target.value;
           setScale({ type: "change-scale", payload: value });
+        }}
+      /> */}
+      <ColorPicker
+        color={color}
+        setColor={(value) => {
+          colorDispatch({ type: `${name}Color`, payload: value });
         }}
       />
     </div>
@@ -55,7 +69,7 @@ const RandomPanel = (props) => {
 
 export const Panel = (props) => {
   // const portal = useContext(PortalContext);
-  const { type, portal, name, dispatch, color } = props;
+  const { type, portal, name, colorDispatch, color } = props;
 
   if (type === "Wall") {
     return createPortal(<WallPanel {...props} />, portal);
@@ -66,7 +80,7 @@ export const Panel = (props) => {
       <ColorPicker
         color={color}
         setColor={(value) => {
-          dispatch({ type: `${name}Color`, payload: value });
+          colorDispatch({ type: `${name}Color`, payload: value });
         }}
       />,
       portal

@@ -36,7 +36,6 @@ export const useTransformControls = (selected) => {
       setEnabled(false);
       return;
     }
-    console.log("i ran the rest");
     const handleKeyUp = (event) => {
       switch (event.key) {
         case "r":

@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { textures } from "../../../textures";
+import { useTexture } from "@react-three/drei";
 import "./TexturePicker.css";
 
 export const TexturePicker = (props) => {
@@ -24,8 +25,10 @@ export const TexturePicker = (props) => {
         name="Textures"
         id="TextureSelect"
         onChange={(event) => {
-          props.onChange(event);
-          setState(event.target.value);
+          const value = JSON.parse(event.target.value);
+
+          // setState(value);
+          props.setTexture(value);
         }}
       >
         {/* <option value={""}>Select a Texture</option> */}

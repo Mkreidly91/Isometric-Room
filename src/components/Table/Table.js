@@ -33,6 +33,7 @@ export default function Table(props) {
   const isSelected = selected && selected.name === name;
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { clicked, hovered, scale, color } = state;
 
   const portal = useContext(PortalContext);
 
@@ -41,7 +42,7 @@ export default function Table(props) {
 
   const panelProps = isSelected && {
     name: name,
-    color: state.color,
+    color: color,
     dispatch: dispatch,
     portal: portal.current,
   };
@@ -75,6 +76,8 @@ export default function Table(props) {
           attach="material"
           color={state.color}
           reflectivity={1}
+          transparent={true}
+          opacity={hovered ? 0.75 : 1}
         />
         {isSelected && (
           <Edges

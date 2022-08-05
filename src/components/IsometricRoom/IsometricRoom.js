@@ -10,7 +10,8 @@ import React, {
 import { Html, useGLTF, useSelect } from "@react-three/drei";
 import { Panel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
-import { Edges } from "@react-three/drei";
+import { Edges, useTexture } from "@react-three/drei";
+import { act } from "@react-three/fiber";
 
 const initialColorState = {
   lowerFloorColor: "#808080",
@@ -92,6 +93,7 @@ const initialClickState = {
   stairsClick: false,
   handRailClick: false,
 };
+
 const clickReducer = (state, action) => {
   switch (action.type) {
     case "lowerFloorClick":
@@ -117,6 +119,48 @@ const clickReducer = (state, action) => {
   }
 };
 
+const initialTextureState = {
+  lowerFloorTexture: {
+    map: "./wall-textures/concrete-brick/concrete_brick_wall_001_diffuse_2k.jpg",
+    displacementMap:
+      "./wall-textures/concrete-brick/concrete_brick_wall_001_disp_2k.jpg",
+    aoMap: "./wall-textures/concrete-brick/concrete_brick_wall_001_arm_2k.jpg",
+    roughnessMap:
+      "./wall-textures/concrete-brick/concrete_brick_wall_001_rough_2k.jpg",
+    metalnessMap:
+      "./wall-textures/concrete-brick/concrete_brick_wall_001_arm_2k.jpg",
+    normalMap:
+      "./wall-textures/concrete-brick/concrete_brick_wall_001_nor_gl_2k.jpg",
+  },
+  // lowerFloorTexture: "",
+  sideWallTexture: "",
+  lowerWallMainTexture: "",
+  bedWallTexture: "",
+  windowFramesTexture: "",
+  upperFloorTexture: "",
+  stairsTexture: "",
+  handRailTexture: "",
+};
+const textureReducer = (state, action) => {
+  switch (action.type) {
+    case "lowerFloorTexture":
+      return { ...state, lowerFloorTexture: action.payload };
+    case "sideWallTexture":
+      return { ...state, sideWallTexture: action.payload };
+    case "lowerWallTexture":
+      return { ...state, lowerWallTexture: action.payload };
+    case "bedWallTexture":
+      return { ...state, bedWallTexture: action.payload };
+    case "windowFramesTexture":
+      return { ...state, windowFramesTexture: action.payload };
+    case "upperFloorTexture":
+      return { ...state, upperFloorTexture: action.payload };
+    case "stairsTexture":
+      return { ...state, stairsTexture: action.payload };
+    case "handRailTexture":
+      return { ...state, handRailTexture: action.payload };
+  }
+};
 const names = [
   "lowerFloor",
   "sideWall",
@@ -154,6 +198,10 @@ export default function IsometericRoom(props) {
     clickReducer,
     initialClickState
   );
+  const [textureState, textureDispatch] = useReducer(
+    textureReducer,
+    initialTextureState
+  );
 
   const {
     lowerFloorColor,
@@ -188,10 +236,23 @@ export default function IsometericRoom(props) {
     upperFloorClick,
   } = clickState;
 
+  const {
+    lowerFloorTexture,
+    sideWallTexture,
+    windowFramesTexture,
+    stairsTexture,
+    bedWallTexture,
+    handRailTexture,
+    lowerWallMainTexture,
+    upperFloorTexture,
+  } = textureState;
+
   const panelProps = selected && {
+    type: "Wall",
     name: selected.name,
     color: colorState[`${selected.name}Color`],
-    dispatch: colorDispatch,
+    colorDispatch: colorDispatch,
+    textureDispatch: textureDispatch,
     portal: portal.current,
   };
 
@@ -207,7 +268,7 @@ export default function IsometericRoom(props) {
       hoverDispatch({ type: `${name}Hover` });
     },
   };
-
+  //
   return (
     <group {...props} dispose={null}>
       <Html>{isSelected && <Panel {...panelProps} />}</Html>
@@ -225,6 +286,7 @@ export default function IsometericRoom(props) {
           transparent={true}
           opacity={lowerFloorHover ? 0.75 : 1}
           color={lowerFloorColor}
+          {...(useTexture(lowerFloorTexture) || "")}
         />
         <Edges
           visible={lowerFloorClick ? true : false}
