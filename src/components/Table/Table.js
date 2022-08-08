@@ -43,7 +43,7 @@ export default function Table(props) {
   const panelProps = isSelected && {
     name: name,
     color: color,
-    dispatch: dispatch,
+    colorDispatch: dispatch,
     portal: portal.current,
   };
 
