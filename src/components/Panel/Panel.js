@@ -4,6 +4,7 @@ import { TexturePicker } from "./TexturePicker/TexturePicker";
 
 import { ScaleSlider } from "./ScaleSlider/ScaleSlider";
 import { ColorPicker } from "./ColorPicker/ColorPicker";
+import { useTexture } from "@react-three/drei";
 const WallPanel = (props) => {
   const {
     texture,

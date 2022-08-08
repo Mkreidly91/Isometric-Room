@@ -25,13 +25,14 @@ export const TexturePicker = (props) => {
         name="Textures"
         id="TextureSelect"
         onChange={(event) => {
-          const value = JSON.parse(event.target.value);
+          const value =
+            event.target.value !== "" ? JSON.parse(event.target.value) : "";
 
           // setState(value);
           props.setTexture(value);
         }}
       >
-        {/* <option value={""}>Select a Texture</option> */}
+        <option value={""}>None</option>
         {NewListItems}
       </select>
     </div>
