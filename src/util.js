@@ -56,6 +56,18 @@ export const useTransformControls = (selected) => {
           break;
       }
     };
+    if (enabled) {
+      const controls = TransformControlsRef.current;
+      if (mode === "translate") {
+        controls.showY = false;
+      } else if (mode === "rotate") {
+        controls.showY = true;
+        controls.showX = controls.showZ = false;
+      } else {
+        controls.showY = true;
+        controls.showX = controls.showY = false;
+      }
+    }
     document.addEventListener("keyup", handleKeyUp);
     return () => {
       document.removeEventListener("keyup", handleKeyUp);
