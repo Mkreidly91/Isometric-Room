@@ -4,17 +4,11 @@ import * as THREE from "three";
 import { SuspenseWrapper } from "./components/SuspenseWrapper/SuspenseWrapper";
 import "./App.css";
 import { useHelper } from "@react-three/drei";
-//import models and plane
-import Tiles from "./components/Tiles/Tiles";
-import { PointLightHelper } from "three";
 
-//import textures
-import { textures } from "./textures";
+import { PointLightHelper } from "three";
 
 //a React.context to be passed down to all models
 export const PortalContext = createContext();
-
-const { blackWhiteTiles } = textures.textureMaps;
 
 const App = () => {
   //Camera
@@ -28,7 +22,7 @@ const App = () => {
     1000
   );
   camera.position.set(50, 60, 50);
-  camera.lookAt(new THREE.Vector3(0, 0, 0));
+  // camera.lookAt(new THREE.Vector3(0, 0, 0));
 
   return (
     <div className="main">
@@ -42,7 +36,6 @@ const App = () => {
           castShadow
         />
 
-        <Tiles texture={blackWhiteTiles} />
         <PortalContext.Provider value={portal}>
           <SuspenseWrapper />
         </PortalContext.Provider>

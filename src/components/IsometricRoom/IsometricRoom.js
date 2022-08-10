@@ -120,7 +120,7 @@ const clickReducer = (state, action) => {
 };
 
 const defaultMap = {
-  map: "./wall-textures/beige-wall/beige_wall_001_diff_2k.jpg",
+  map: "./Textures/wall-textures/beige-wall/beige_wall_001_diff_2k.jpg",
 };
 
 const initialTextureState = {
@@ -241,7 +241,7 @@ export default function IsometericRoom(props) {
   } = textureState;
 
   const wrap = (texture) => {
-    wrappingStyle({ texture: texture, mode: "repeat", ratio: [4, 4] });
+    wrappingStyle({ texture: texture, mode: "", ratio: [1, 1] });
   };
   const lf_tex = useTexture(
     lowerFloorTexture ? lowerFloorTexture : defaultMap,
@@ -288,10 +288,11 @@ export default function IsometericRoom(props) {
   );
   console.log(lf_tex);
   const panelProps = selected && {
-    type: "Wall",
+    type: selected.objectType,
     name: selected.name,
     color: colorState[`${selected.name}Color`],
     colorDispatch: colorDispatch,
+    texture: textureState[`${selected.name}Texture`],
     textureDispatch: textureDispatch,
     portal: portal.current,
   };
@@ -308,12 +309,12 @@ export default function IsometericRoom(props) {
       hoverDispatch({ type: `${name}Hover` });
     },
   };
-  //
+
   return (
     <group {...props} dispose={null}>
       <Html>{isSelected && <Panel {...panelProps} />}</Html>
       <mesh
-        objectType="wall"
+        objectType="Floor"
         name={names[0]}
         castShadow
         receiveShadow
@@ -346,7 +347,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        objectType="wall"
+        objectType="Wall"
         name={names[1]}
         castShadow
         receiveShadow
@@ -378,7 +379,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        objectType="wall"
+        objectType="Wall"
         name={names[2]}
         castShadow
         receiveShadow
@@ -432,7 +433,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        objectType="wall"
+        objectType="Wall"
         name={names[4]}
         geometry={nodes.Lower_Wall_Main.geometry}
         position={[-2.55, 2.5, 0]}
@@ -461,7 +462,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        objectType="wall"
+        objectType="Wall"
         name={names[5]}
         castShadow
         receiveShadow
@@ -492,7 +493,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        objectType="wall"
+        objectType="Floor"
         name={names[6]}
         castShadow
         receiveShadow
@@ -523,7 +524,7 @@ export default function IsometericRoom(props) {
         />
       </mesh>
       <mesh
-        objectType="wall"
+        objectType="Wall"
         name={names[7]}
         castShadow
         receiveShadow

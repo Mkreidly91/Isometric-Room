@@ -5,6 +5,7 @@ import {
 } from "three";
 import { useState, useRef, useEffect } from "react";
 import { TransformControls } from "@react-three/drei";
+
 //Control the wrapping style on texures,mainly used for tiling textures on surfaces.
 export const wrappingStyle = (args) => {
   const { texture, mode, ratio } = args;

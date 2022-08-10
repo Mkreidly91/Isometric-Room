@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from "react";
-import { textures } from "../../../textures";
+import { wallTextures, groundTextures } from "../../../textures";
 import { useTexture } from "@react-three/drei";
 import "./TexturePicker.css";
 
 export const TexturePicker = (props) => {
-  const { textureList, textureMaps } = textures;
+  const { textureList, textureMaps } =
+    props.type == "Wall" ? wallTextures : groundTextures;
   const [state, setState] = useState("beigeWall");
 
   const NewListItems = Object.keys(textureList).map((element, i) => {
@@ -27,8 +28,6 @@ export const TexturePicker = (props) => {
         onChange={(event) => {
           const value =
             event.target.value !== "" ? JSON.parse(event.target.value) : "";
-
-          // setState(value);
           props.setTexture(value);
         }}
       >
