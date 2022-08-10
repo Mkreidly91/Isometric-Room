@@ -249,7 +249,7 @@ export default function IsometericRoom(props) {
       wrap(texture);
     }
   );
-  console.log(lf_tex);
+
   const sw_tex = useTexture(
     sideWallTexture ? sideWallTexture : defaultMap,
     (texture) => {
@@ -286,7 +286,7 @@ export default function IsometericRoom(props) {
       wrap(texture);
     }
   );
-  console.log(lf_tex);
+
   const panelProps = selected && {
     type: selected.objectType,
     name: selected.name,
@@ -300,6 +300,7 @@ export default function IsometericRoom(props) {
   const hoverProps = {
     onPointerEnter: (event) => {
       event.stopPropagation();
+      console.log(event.intersections[0]);
       const name = event.eventObject.name;
       hoverDispatch({ type: `${name}Hover` });
     },
