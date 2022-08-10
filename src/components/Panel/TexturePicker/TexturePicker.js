@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { wallTextures, groundTextures } from "../../../textures";
-import { useTexture } from "@react-three/drei";
+
 import "./TexturePicker.css";
 
 export const TexturePicker = (props) => {
