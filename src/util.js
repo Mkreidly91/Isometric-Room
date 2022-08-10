@@ -72,6 +72,6 @@ export const useTransformControls = (selected) => {
     return () => {
       document.removeEventListener("keyup", handleKeyUp);
     };
-  }, [selected]);
+  }, [selected, enabled, mode]);
   return [TransformControlsRef, mode, enabled];
 };
