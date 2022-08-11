@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { createWalls } from "../../wallCreator";
 import { TransformControls, OrbitControls, useHelper } from "@react-three/drei";
-import { PointLightHelper, SpotLightHelper, Vector3 } from "three";
+import { PointLightHelper, Vector3 } from "three";
 
 import Table from "../Table/Table";
 import IsometericRoom from "../IsometricRoom/IsometricRoom";

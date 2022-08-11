@@ -5,7 +5,7 @@ import { SuspenseWrapper } from "./components/SuspenseWrapper/SuspenseWrapper";
 import "./App.css";
 import { useHelper } from "@react-three/drei";
 
-import { PointLightHelper } from "three";
+import { OrthographicCamera, PointLightHelper } from "three";
 
 //a React.context to be passed down to all models
 export const PortalContext = createContext();
@@ -34,14 +34,14 @@ const App = () => {
     0.1,
     1000
   );
-  camera.position.set(60, 60, 60);
+  camera.position.set(10, 10, 10);
   camera.lookAt(new THREE.Vector3(0, 0, 0));
+  console.log(camera);
 
   return (
     <div className="main">
       <Canvas frameloop="demand" camera={camera} dpr={window.devicePixelRatio}>
         <ambientLight intensity={2} />
-
         <PortalContext.Provider value={portal}>
           <SuspenseWrapper />
         </PortalContext.Provider>
