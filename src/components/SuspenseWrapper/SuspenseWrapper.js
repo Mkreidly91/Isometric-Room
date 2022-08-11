@@ -8,8 +8,8 @@ import React, {
   useRef,
 } from "react";
 import { createWalls } from "../../wallCreator";
-import { TransformControls, OrbitControls } from "@react-three/drei";
-import { Vector3 } from "three";
+import { TransformControls, OrbitControls, useHelper } from "@react-three/drei";
+import { PointLightHelper, SpotLightHelper, Vector3 } from "three";
 
 import Table from "../Table/Table";
 import IsometericRoom from "../IsometricRoom/IsometricRoom";
@@ -21,15 +21,28 @@ export const SuspenseWrapper = (props) => {
 
   const [TransformControlsRef, mode, enabled] =
     useTransformControls(selectedItem);
+  const light = useRef();
+  const light2 = useRef();
+  const light3 = useRef();
+  const lightHelper = useHelper(light, PointLightHelper, 3, "red");
+  const lightHelper2 = useHelper(light2, PointLightHelper, 3, "red");
 
   return (
     <Suspense fallback={null}>
-      <PerspectiveCamera
-        fov={60}
-        aspect={window.innerWidth / window.innerHeight}
-        near={0.1}
-        far={1000}
-        position={[-30, 50, -30]}
+      <pointLight
+        ref={light}
+        intensity={4}
+        penumbra={0}
+        position={[-10, 30, 20]}
+        castShadow
+      />
+      <pointLight
+        ref={light2}
+        intensity={1}
+        penumbra={0}
+        position={[20, 30, -10]}
+        castShadow
+        visible={true}
       />
       <OrbitControls
         makeDefault

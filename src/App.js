@@ -22,19 +22,12 @@ const App = () => {
     1000
   );
   camera.position.set(50, 60, 50);
-  // camera.lookAt(new THREE.Vector3(0, 0, 0));
+  camera.lookAt(new THREE.Vector3(0, 0, 0));
 
   return (
     <div className="main">
       <Canvas frameloop="demand" camera={camera} dpr={window.devicePixelRatio}>
-        <ambientLight intensity={1} />
-        <pointLight
-          ref={light}
-          intensity={1}
-          penumbra={1}
-          position={[30, 50, 50]}
-          castShadow
-        />
+        <ambientLight intensity={2} />
 
         <PortalContext.Provider value={portal}>
           <SuspenseWrapper />

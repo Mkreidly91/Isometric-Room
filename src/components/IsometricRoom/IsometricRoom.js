@@ -167,6 +167,7 @@ const names = [
 
 export default function IsometericRoom(props) {
   const { nodes, materials } = useGLTF("/Isometric-room/IsometricRoom.glb");
+
   const portal = useContext(PortalContext);
   const selected = useSelect()[0];
   const isSelected = selected && names.includes(selected.name);
@@ -300,7 +301,6 @@ export default function IsometericRoom(props) {
   const hoverProps = {
     onPointerEnter: (event) => {
       event.stopPropagation();
-      console.log(event.intersections[0]);
       const name = event.eventObject.name;
       hoverDispatch({ type: `${name}Hover` });
     },
@@ -312,12 +312,12 @@ export default function IsometericRoom(props) {
   };
 
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} castShadow receiveShadow>
       <Html>{isSelected && <Panel {...panelProps} />}</Html>
       <mesh
         objectType="Floor"
         name={names[0]}
-        castShadow
+        // castShadow
         receiveShadow
         geometry={nodes.Lower_Floor.geometry}
         position={[0, -0.1, 0]}
@@ -438,6 +438,8 @@ export default function IsometericRoom(props) {
         name={names[4]}
         geometry={nodes.Lower_Wall_Main.geometry}
         position={[-2.55, 2.5, 0]}
+        castShadow
+        receiveShadow
         {...hoverProps}
       >
         <meshStandardMaterial
