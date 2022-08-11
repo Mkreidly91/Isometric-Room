@@ -31,10 +31,10 @@ const App = () => {
     d * aspect,
     d,
     -d,
-    0.1,
+    1,
     1000
   );
-  camera.position.set(10, 10, 10);
+  camera.position.set(60, 60, 60);
   camera.lookAt(new THREE.Vector3(0, 0, 0));
   console.log(camera);
 
