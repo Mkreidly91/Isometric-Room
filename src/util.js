@@ -4,6 +4,7 @@ import {
   MirroredRepeatWrapping,
 } from "three";
 import { useState, useRef, useEffect } from "react";
+import * as THREE from "three";
 
 //Control the wrapping style on texures,mainly used for tiling textures on surfaces.
 export const wrappingStyle = (args) => {
@@ -22,6 +23,7 @@ export const wrappingStyle = (args) => {
     map.wrapS = wrappingMode;
     map.wrapT = wrappingMode;
     map.repeat.set(repeatX, repeatY);
+    // map.offset = new THREE.Vector2(0, 1);
   });
 };
 

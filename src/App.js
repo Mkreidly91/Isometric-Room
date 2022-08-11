@@ -15,13 +15,26 @@ const App = () => {
   const portal = useRef();
   const light = useRef();
 
-  const camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
+  // const camera = new THREE.PerspectiveCamera(
+  //   60,
+  //   window.innerWidth / window.innerHeight,
+  //   0.1,
+  //   1000
+  // );
+  // camera.position.set(50, 50, 50);
+  // camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+  const aspect = window.innerWidth / window.innerHeight;
+  const d = 60;
+  const camera = new THREE.OrthographicCamera(
+    -d * aspect,
+    d * aspect,
+    d,
+    -d,
     0.1,
     1000
   );
-  camera.position.set(50, 60, 50);
+  camera.position.set(60, 60, 60);
   camera.lookAt(new THREE.Vector3(0, 0, 0));
 
   return (

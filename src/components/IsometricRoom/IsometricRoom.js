@@ -12,6 +12,7 @@ import { Panel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
 import { Edges, useTexture } from "@react-three/drei";
 import { wrappingStyle } from "../../util";
+import * as THREE from "three";
 
 const initialColorState = {
   lowerFloorColor: "#808080",
@@ -167,7 +168,7 @@ const names = [
 
 export default function IsometericRoom(props) {
   const { nodes, materials } = useGLTF("/Isometric-room/IsometricRoom.glb");
-
+  console.log(nodes);
   const portal = useContext(PortalContext);
   const selected = useSelect()[0];
   const isSelected = selected && names.includes(selected.name);
@@ -242,7 +243,7 @@ export default function IsometericRoom(props) {
   } = textureState;
 
   const wrap = (texture) => {
-    wrappingStyle({ texture: texture, mode: "", ratio: [1, 1] });
+    wrappingStyle({ texture: texture, mode: "repeat", ratio: [2, 2] });
   };
   const lf_tex = useTexture(
     lowerFloorTexture ? lowerFloorTexture : defaultMap,
