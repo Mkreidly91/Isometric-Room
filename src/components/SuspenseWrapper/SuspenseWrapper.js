@@ -23,7 +23,7 @@ export const SuspenseWrapper = (props) => {
     useTransformControls(selectedItem);
   const light = useRef();
   const light2 = useRef();
-  const light3 = useRef();
+
   const lightHelper = useHelper(light, PointLightHelper, 3, "red");
   const lightHelper2 = useHelper(light2, PointLightHelper, 3, "red");
 
