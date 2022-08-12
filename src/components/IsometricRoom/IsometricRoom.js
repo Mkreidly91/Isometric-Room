@@ -31,7 +31,7 @@ const names = [
 
 export default function IsometericRoom(props) {
   const { nodes, materials } = useGLTF("/Isometric-room/IsometricRoom.glb");
-  console.log(nodes);
+
   const portal = useContext(PortalContext);
   const selected = useSelect()[0];
   const isSelected = selected && names.includes(selected.name);

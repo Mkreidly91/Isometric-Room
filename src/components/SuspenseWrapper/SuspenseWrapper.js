@@ -46,7 +46,7 @@ export const SuspenseWrapper = (props) => {
       />
       <OrbitControls
         makeDefault
-        target={new Vector3(0, 0, 0)}
+        // target={new Vector3(0, 0, 0)}
         // target={s[0] ? s[0].position : new Vector3(0, 0, 0)}
       />
       {enabled && s && (
