@@ -7,9 +7,9 @@ import React, {
   useCallback,
   useRef,
 } from "react";
-import { createWalls } from "../../wallCreator";
+
 import { TransformControls, OrbitControls, useHelper } from "@react-three/drei";
-import { PointLightHelper, Vector3 } from "three";
+import { PointLightHelper } from "three";
 
 import Table from "../Table/Table";
 import IsometericRoom from "../IsometricRoom/IsometricRoom";

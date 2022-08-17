@@ -62,12 +62,13 @@ export default function Table(props) {
 
   return (
     <group ref={group} {...props} dispose={null}>
+      <Html>{isSelected && <Panel {...panelProps} />}</Html>
       <mesh
         name={name}
         castShadow
         receiveShadow
         geometry={nodes.Dining_Table.geometry}
-        position={[-0.19, 1.9, 1.32]}
+        position={[0, 1.9, 0]}
         rotation={[Math.PI, 0, Math.PI]}
         {...hoverProps}
         scale={state.scale}
@@ -88,7 +89,6 @@ export default function Table(props) {
           />
         )}
       </mesh>
-      <Html>{isSelected && <Panel {...panelProps} />}</Html>
     </group>
   );
 }

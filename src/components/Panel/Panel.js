@@ -27,7 +27,7 @@ const WallPanel = (props) => {
 
 export const Panel = (props) => {
   const { type, portal, name, colorDispatch, color } = props;
-  if (type === "Wall" || "Floor") {
+  if (type === "Wall" || type === "Floor") {
     return createPortal(<WallPanel {...props} />, portal);
   } else {
     return createPortal(
