@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useEffect } from "react";
+import React, { useContext, useReducer, useEffect, useRef } from "react";
 import { Html, useGLTF, useSelect } from "@react-three/drei";
 import { Panel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
@@ -17,6 +17,8 @@ import {
   textureReducer,
   defaultMap,
 } from "./roomReducers";
+
+import { initialLowerFloorItems, lowerFloorReducer } from "./itemReducers";
 
 const names = [
   "lowerFloor",
@@ -59,6 +61,10 @@ export default function IsometericRoom(props) {
   const [textureState, textureDispatch] = useReducer(
     textureReducer,
     initialTextureState
+  );
+  const [lowerFloorState, lowerFloorDispatch] = useReducer(
+    lowerFloorReducer,
+    initialLowerFloorItems
   );
 
   const {
@@ -159,6 +165,7 @@ export default function IsometericRoom(props) {
     colorDispatch: colorDispatch,
     texture: textureState[`${selected.name}Texture`],
     textureDispatch: textureDispatch,
+    lowerFloorDispatch: lowerFloorDispatch,
     portal: portal.current,
   };
 
@@ -174,7 +181,10 @@ export default function IsometericRoom(props) {
       hoverDispatch({ type: `${name}Hover` });
     },
   };
-
+  const lowerFloorItems = () => {
+    const { table, chair, carpet } = lowerFloorState;
+    return [table, chair, carpet];
+  };
   return (
     <group {...props} dispose={null} castShadow receiveShadow>
       <Html>{isSelected && <Panel {...panelProps} />}</Html>
@@ -421,6 +431,7 @@ export default function IsometericRoom(props) {
           renderOrder={1000}
         />
       </mesh>
+      {lowerFloorItems()}
     </group>
   );
 }

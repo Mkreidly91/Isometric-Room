@@ -29,7 +29,6 @@ export const FloorItems = (props) => {
   const selected = useSelect()[0];
   const [state, dispatch] = useReducer(reducer, initialState);
   console.log(state.table);
-  let alltables;
 
   if (props.buttons) {
     return (

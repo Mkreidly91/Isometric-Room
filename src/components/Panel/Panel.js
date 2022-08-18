@@ -6,7 +6,15 @@ import { ColorPicker } from "./ColorPicker/ColorPicker";
 import { FloorItems } from "../Items/FloorItems";
 
 const WallPanel = (props) => {
-  const { texture, color, colorDispatch, textureDispatch, name, type } = props;
+  const {
+    texture,
+    color,
+    colorDispatch,
+    textureDispatch,
+    lowerFloorDispatch,
+    name,
+    type,
+  } = props;
   return (
     <div>
       <TexturePicker
@@ -22,7 +30,30 @@ const WallPanel = (props) => {
           colorDispatch({ type: `${name}Color`, payload: value });
         }}
       />
-      <FloorItems buttons />
+      <button
+        type="button"
+        onClick={() => {
+          lowerFloorDispatch({ type: "addTable" });
+        }}
+      >
+        add table
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          lowerFloorDispatch({ type: "addChair" });
+        }}
+      >
+        add Chair
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          lowerFloorDispatch({ type: "addCarpet" });
+        }}
+      >
+        add Carpet
+      </button>
     </div>
   );
 };

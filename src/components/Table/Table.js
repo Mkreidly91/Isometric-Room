@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useRef } from "react";
+import React, { useContext, useEffect, useReducer, useRef } from "react";
 import { Html, useGLTF, useSelect, useTexture, Edges } from "@react-three/drei";
 
 import { Panel } from "../Panel/Panel";
@@ -7,7 +7,7 @@ import { PortalContext } from "../../App";
 const initialState = {
   clicked: false,
   hovered: false,
-  scale: 5,
+  scale: 1,
   color: "#FFFFFF",
 };
 const reducer = (state, action) => {
@@ -30,7 +30,11 @@ const name = "table";
 
 export default function Table(props) {
   const selected = useSelect()[0];
-  const isSelected = selected && selected.name === name;
+
+  const tableRef = useRef();
+  console.log(tableRef);
+  const isSelected =
+    selected && tableRef.current && selected.uuid === tableRef.current.uuid;
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const { clicked, hovered, scale, color } = state;
@@ -64,11 +68,12 @@ export default function Table(props) {
     <group ref={group} {...props} dispose={null}>
       <Html>{isSelected && <Panel {...panelProps} />}</Html>
       <mesh
+        ref={tableRef}
         name={name}
         castShadow
         receiveShadow
         geometry={nodes.Dining_Table.geometry}
-        position={[0, 1.9, 0]}
+        position={props.position}
         rotation={[Math.PI, 0, Math.PI]}
         {...hoverProps}
         scale={state.scale}

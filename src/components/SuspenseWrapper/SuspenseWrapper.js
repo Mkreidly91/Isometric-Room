@@ -67,7 +67,6 @@ export const SuspenseWrapper = (props) => {
       >
         <IsometericRoom scale={5} />
         {/* <Table /> */}
-        <FloorItems />
       </Select>
     </Suspense>
   );
