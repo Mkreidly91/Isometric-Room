@@ -14,6 +14,7 @@ import { PointLightHelper } from "three";
 import Table from "../Table/Table";
 import IsometericRoom from "../IsometricRoom/IsometricRoom";
 import { useTransformControls } from "../../util";
+import { FloorItems } from "../Items/FloorItems";
 
 export const SuspenseWrapper = (props) => {
   const [s, setS] = useState([]);
@@ -65,7 +66,8 @@ export const SuspenseWrapper = (props) => {
         }}
       >
         <IsometericRoom scale={5} />
-        <Table />
+        {/* <Table /> */}
+        <FloorItems />
       </Select>
     </Suspense>
   );

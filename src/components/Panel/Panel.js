@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { TexturePicker } from "./TexturePicker/TexturePicker";
 import { ScaleSlider } from "./ScaleSlider/ScaleSlider";
 import { ColorPicker } from "./ColorPicker/ColorPicker";
+import { FloorItems } from "../Items/FloorItems";
 
 const WallPanel = (props) => {
   const { texture, color, colorDispatch, textureDispatch, name, type } = props;
@@ -21,6 +22,7 @@ const WallPanel = (props) => {
           colorDispatch({ type: `${name}Color`, payload: value });
         }}
       />
+      <FloorItems buttons />
     </div>
   );
 };

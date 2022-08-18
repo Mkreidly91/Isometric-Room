@@ -181,7 +181,7 @@ export default function IsometericRoom(props) {
       <mesh
         objectType="Floor"
         name={names[0]}
-        // castShadow
+        castShadow
         receiveShadow
         geometry={nodes.Lower_Floor.geometry}
         position={[0, -0.1, 0]}
