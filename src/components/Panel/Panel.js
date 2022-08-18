@@ -4,7 +4,7 @@ import { TexturePicker } from "./TexturePicker/TexturePicker";
 import { ScaleSlider } from "./ScaleSlider/ScaleSlider";
 import { ColorPicker } from "./ColorPicker/ColorPicker";
 import { FloorItems } from "../Items/FloorItems";
-
+import { LowerFloorButtons } from "./itemPicker/itemPicker";
 const WallPanel = (props) => {
   const {
     texture,
@@ -30,30 +30,7 @@ const WallPanel = (props) => {
           colorDispatch({ type: `${name}Color`, payload: value });
         }}
       />
-      <button
-        type="button"
-        onClick={() => {
-          lowerFloorDispatch({ type: "addTable" });
-        }}
-      >
-        add table
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          lowerFloorDispatch({ type: "addChair" });
-        }}
-      >
-        add Chair
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          lowerFloorDispatch({ type: "addCarpet" });
-        }}
-      >
-        add Carpet
-      </button>
+      <LowerFloorButtons lowerFloorDispatch={lowerFloorDispatch} />
     </div>
   );
 };
