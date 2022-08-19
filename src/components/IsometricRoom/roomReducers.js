@@ -1,3 +1,14 @@
+export const roomState = {
+  lowerFloor: {},
+  sideWall: {},
+  lowerWall: {},
+  bedWall: {},
+  windowFrames: {},
+  upperFloor: {},
+  stairs: {},
+  handRail: {},
+};
+
 export const initialColorState = {
   lowerFloorColor: "#808080",
   sideWallColor: "#808080",
