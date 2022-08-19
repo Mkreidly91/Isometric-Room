@@ -6,17 +6,7 @@ import { Edges, useTexture } from "@react-three/drei";
 import { wrappingStyle } from "../../util";
 import * as THREE from "three";
 
-import {
-  initialColorState,
-  initialHoverState,
-  initialClickState,
-  initialTextureState,
-  colorReducer,
-  hoverReducer,
-  clickReducer,
-  textureReducer,
-  defaultMap,
-} from "./roomReducers";
+import { roomState, roomReducer, defaultMap } from "./roomReducers";
 
 import { initialLowerFloorItems, lowerFloorReducer } from "./itemReducers";
 
@@ -39,134 +29,86 @@ export default function IsometericRoom(props) {
   const isSelected = selected && names.includes(selected.name);
 
   useEffect(() => {
-    if (!isSelected) clickDispatch({ type: "reset" });
+    if (!isSelected) roomDispatch({ type: "resetClick" });
     else if (isSelected) {
-      clickDispatch({ type: "reset" });
-      clickDispatch({ type: `${selected.name}Click` });
+      roomDispatch({ type: "resetClick" });
+      roomDispatch({ type: "click", payload: { name: selected.name } });
     }
   }, [selected]);
+  const [state, roomDispatch] = useReducer(roomReducer, roomState);
 
-  const [colorState, colorDispatch] = useReducer(
-    colorReducer,
-    initialColorState
-  );
-  const [hoverState, hoverDispatch] = useReducer(
-    hoverReducer,
-    initialHoverState
-  );
-  const [clickState, clickDispatch] = useReducer(
-    clickReducer,
-    initialClickState
-  );
-  const [textureState, textureDispatch] = useReducer(
-    textureReducer,
-    initialTextureState
-  );
   const [lowerFloorState, lowerFloorDispatch] = useReducer(
     lowerFloorReducer,
     initialLowerFloorItems
   );
 
   const {
-    lowerFloorColor,
-    sideWallColor,
-    windowFramesColor,
-    stairsColor,
-    bedWallColor,
-    handRailColor,
-    lowerWallColor,
-    upperFloorColor,
-  } = colorState;
-
-  const {
-    lowerFloorHover,
-    sideWallHover,
-    windowFramesHover,
-    stairsHover,
-    bedWallHover,
-    handRailHover,
-    lowerWallHover,
-    upperFloorHover,
-  } = hoverState;
-
-  const {
-    lowerFloorClick,
-    sideWallClick,
-    windowFramesClick,
-    stairsClick,
-    bedWallClick,
-    handRailClick,
-    lowerWallClick,
-    upperFloorClick,
-  } = clickState;
-
-  const {
-    lowerFloorTexture,
-    sideWallTexture,
-    windowFramesTexture,
-    stairsTexture,
-    bedWallTexture,
-    handRailTexture,
-    lowerWallTexture,
-    upperFloorTexture,
-  } = textureState;
+    lowerFloor,
+    sideWall,
+    windowFrames,
+    stairs,
+    bedWall,
+    handRail,
+    lowerWall,
+    upperFloor,
+  } = state;
 
   const wrap = (texture) => {
     wrappingStyle({ texture: texture, mode: "repeat", ratio: [2, 2] });
   };
   const lf_tex = useTexture(
-    lowerFloorTexture ? lowerFloorTexture : defaultMap,
+    lowerFloor.texture ? lowerFloor.texture : defaultMap,
     (texture) => {
       wrap(texture);
     }
   );
 
   const sw_tex = useTexture(
-    sideWallTexture ? sideWallTexture : defaultMap,
+    sideWall.texture ? sideWall.texture : defaultMap,
     (texture) => {
       wrap(texture);
     }
   );
   const wf_tex = useTexture(
-    windowFramesTexture ? windowFramesTexture : defaultMap,
+    windowFrames.texture ? windowFrames.texture : defaultMap,
     (texture) => {
       wrap(texture);
     }
   );
   const st_tex = useTexture(
-    stairsTexture ? stairsTexture : defaultMap,
+    stairs.texture ? stairs.texture : defaultMap,
     (texture) => {
       wrap(texture);
     }
   );
   const bw_tex = useTexture(
-    bedWallTexture ? bedWallTexture : defaultMap,
+    bedWall.texture ? bedWall.texture : defaultMap,
     (texture) => {
       wrap(texture);
     }
   );
   const lwm_tex = useTexture(
-    lowerWallTexture ? lowerWallTexture : defaultMap,
+    lowerWall.texture ? lowerWall.texture : defaultMap,
     (texture) => {
       wrap(texture);
     }
   );
   const uf_tex = useTexture(
-    upperFloorTexture ? upperFloorTexture : defaultMap,
+    upperFloor.texture ? upperFloor.texture : defaultMap,
     (texture) => {
       wrap(texture);
     }
   );
+  console.log(selected);
 
   const panelProps = selected && {
     selected: selected,
     type: selected.objectType,
     name: selected.name,
-    color: colorState[`${selected.name}Color`],
-    colorDispatch: colorDispatch,
-    texture: textureState[`${selected.name}Texture`],
-    textureDispatch: textureDispatch,
+    color: state[selected.name]?.color || selected.material.color,
+    texture: state[selected.name]?.texture,
     lowerFloorDispatch: lowerFloorDispatch,
+    roomDispatch: roomDispatch,
     portal: portal.current,
   };
 
@@ -174,19 +116,18 @@ export default function IsometericRoom(props) {
     onPointerEnter: (event) => {
       event.stopPropagation();
       const name = event.eventObject.name;
-      hoverDispatch({ type: `${name}Hover` });
+      roomDispatch({ type: "hover", payload: { name: name } });
     },
     onPointerLeave: (event) => {
       event.stopPropagation();
       const name = event.eventObject.name;
-      hoverDispatch({ type: `${name}Hover` });
+      roomDispatch({ type: "hover", payload: { name: name } });
     },
   };
   const lowerFloorItems = () => {
     const { table, chair, carpet } = lowerFloorState;
     return [table, chair, carpet];
   };
-  // console.log(lowerFloorState.table);
 
   return (
     <group {...props} dispose={null} castShadow receiveShadow>
@@ -200,25 +141,24 @@ export default function IsometericRoom(props) {
         position={[0, -0.1, 0]}
         {...hoverProps}
       >
-        {!lowerFloorTexture && (
+        <meshStandardMaterial
+          attach="material"
+          transparent={true}
+          opacity={lowerFloor.hover ? 0.75 : 1}
+          color={lowerFloor.color}
+        />
+        {lowerFloor.texture && (
           <meshStandardMaterial
             attach="material"
             transparent={true}
-            opacity={lowerFloorHover ? 0.75 : 1}
-            color={lowerFloorColor}
-          />
-        )}
-        {lowerFloorTexture && (
-          <meshStandardMaterial
-            attach="material"
-            transparent={true}
-            opacity={lowerFloorHover ? 0.75 : 1}
-            color={lowerFloorColor}
+            opacity={lowerFloor.hover ? 0.75 : 1}
+            color={lowerFloor.color}
             {...lf_tex}
           />
         )}
+        )
         <Edges
-          visible={lowerFloorClick ? true : false}
+          visible={lowerFloor.click}
           scale={[1, 1, 1]}
           color={"red"}
           renderOrder={1000}
@@ -236,21 +176,21 @@ export default function IsometericRoom(props) {
         <meshStandardMaterial
           attach="material"
           transparent={true}
-          opacity={sideWallHover ? 0.75 : 1}
-          color={sideWallColor}
+          opacity={sideWall.hover ? 0.75 : 1}
+          color={sideWall.color}
         />
 
-        {sideWallTexture && (
+        {sideWall.texture && (
           <meshStandardMaterial
             attach="material"
             transparent={true}
-            opacity={sideWallHover ? 0.75 : 1}
-            color={sideWallColor}
+            opacity={sideWall.hover ? 0.75 : 1}
+            color={sideWall.color}
             {...sw_tex}
           />
         )}
         <Edges
-          visible={sideWallClick ? true : false}
+          visible={sideWall.click}
           scale={[1, 1, 1]}
           color={"red"}
           renderOrder={1000}
@@ -268,20 +208,20 @@ export default function IsometericRoom(props) {
         <meshStandardMaterial
           attach="material"
           transparent={true}
-          opacity={stairsHover ? 0.75 : 1}
-          color={stairsColor}
+          opacity={stairs.hover ? 0.75 : 1}
+          color={stairs.color}
         />
-        {stairsTexture && (
+        {stairs.texture && (
           <meshStandardMaterial
             attach="material"
             transparent={true}
-            opacity={stairsHover ? 0.75 : 1}
-            color={stairsColor}
+            opacity={stairs.hover ? 0.75 : 1}
+            color={stairs.color}
             {...st_tex}
           />
         )}
         <Edges
-          visible={stairsClick ? true : false}
+          visible={stairs.click}
           scale={[1, 1, 1]}
           color={"red"}
           renderOrder={1000}
@@ -298,13 +238,13 @@ export default function IsometericRoom(props) {
         <meshStandardMaterial
           attach="material"
           transparent={true}
-          opacity={handRailHover ? 0.75 : 1}
-          color={handRailColor}
+          opacity={handRail.hover ? 0.75 : 1}
+          color={handRail.color}
           metalness={0.5}
         />
 
         <Edges
-          visible={handRailClick ? true : false}
+          visible={handRail.click}
           scale={[1, 1, 1]}
           color={"red"}
           renderOrder={1000}
@@ -322,20 +262,20 @@ export default function IsometericRoom(props) {
         <meshStandardMaterial
           attach="material"
           transparent={true}
-          opacity={lowerWallHover ? 0.75 : 1}
-          color={lowerWallColor}
+          opacity={lowerWall.hover ? 0.75 : 1}
+          color={lowerWall.color}
         />
-        {lowerWallTexture && (
+        {lowerWall.texture && (
           <meshStandardMaterial
             attach="material"
             transparent={true}
-            opacity={lowerWallHover ? 0.75 : 1}
-            color={lowerWallColor}
+            opacity={lowerWall.hover ? 0.75 : 1}
+            color={lowerWall.color}
             {...lwm_tex}
           />
         )}
         <Edges
-          visible={lowerWallClick ? true : false}
+          visible={lowerWall.click}
           scale={[1, 1, 1]}
           color={"red"}
           renderOrder={1000}
@@ -353,20 +293,20 @@ export default function IsometericRoom(props) {
         <meshStandardMaterial
           attach="material"
           transparent={true}
-          opacity={bedWallHover ? 0.75 : 1}
-          color={bedWallColor}
+          opacity={bedWall.hover ? 0.75 : 1}
+          color={bedWall.color}
         />
-        {bedWallTexture && (
+        {bedWall.texture && (
           <meshStandardMaterial
             attach="material"
             transparent={true}
-            opacity={bedWallHover ? 0.75 : 1}
-            color={bedWallColor}
+            opacity={bedWall.hover ? 0.75 : 1}
+            color={bedWall.color}
             {...bw_tex}
           />
         )}
         <Edges
-          visible={bedWallClick ? true : false}
+          visible={bedWall.click}
           scale={[1, 1, 1]}
           color={"red"}
           renderOrder={1000}
@@ -384,20 +324,20 @@ export default function IsometericRoom(props) {
         <meshStandardMaterial
           attach="material"
           transparent={true}
-          opacity={upperFloorHover ? 0.75 : 1}
-          color={upperFloorColor}
+          opacity={upperFloor.hover ? 0.75 : 1}
+          color={upperFloor.color}
         />
-        {upperFloorTexture && (
+        {upperFloor.texture && (
           <meshStandardMaterial
             attach="material"
             transparent={true}
-            opacity={upperFloorHover ? 0.75 : 1}
-            color={upperFloorColor}
+            opacity={upperFloor.hover ? 0.75 : 1}
+            color={upperFloor.color}
             {...uf_tex}
           />
         )}
         <Edges
-          visible={upperFloorClick ? true : false}
+          visible={upperFloor.click}
           scale={[1, 1, 1]}
           color={"red"}
           renderOrder={1000}
@@ -415,20 +355,20 @@ export default function IsometericRoom(props) {
         <meshStandardMaterial
           attach="material"
           transparent={true}
-          opacity={windowFramesHover ? 0.75 : 1}
-          color={windowFramesColor}
+          opacity={windowFrames.hover ? 0.75 : 1}
+          color={windowFrames.color}
         />
-        {windowFramesTexture && (
+        {windowFrames.texture && (
           <meshStandardMaterial
             attach="material"
             transparent={true}
-            opacity={windowFramesHover ? 0.75 : 1}
-            color={windowFramesColor}
+            opacity={windowFrames.hover ? 0.75 : 1}
+            color={windowFrames.color}
             {...wf_tex}
           />
         )}
         <Edges
-          visible={windowFramesClick ? true : false}
+          visible={windowFrames.click}
           scale={[1, 1, 1]}
           color={"red"}
           renderOrder={1000}

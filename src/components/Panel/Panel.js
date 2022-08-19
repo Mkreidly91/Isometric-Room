@@ -17,6 +17,7 @@ const WallPanel = (props) => {
     colorDispatch,
     textureDispatch,
     lowerFloorDispatch,
+    roomDispatch,
     name,
     type,
     selected,
@@ -27,13 +28,16 @@ const WallPanel = (props) => {
         type={type}
         value={JSON.stringify(texture)}
         setTexture={(value) => {
-          textureDispatch({ type: `${name}Texture`, payload: value });
+          roomDispatch({
+            type: "texture",
+            payload: { value: value, name: name },
+          });
         }}
       />
       <ColorPicker
         color={color}
         setColor={(value) => {
-          colorDispatch({
+          roomDispatch({
             type: `color`,
             payload: { value: value, name: name },
           });

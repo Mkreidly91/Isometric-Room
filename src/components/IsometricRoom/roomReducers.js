@@ -1,67 +1,97 @@
 export const roomState = {
   lowerFloor: {
     color: "#808080",
-  },
-  sideWall: {
-    color: "#808080",
-  },
-  lowerWall: {
-    color: "#808080",
-  },
-  bedWall: {
-    color: "#808080",
-  },
-  windowFrames: {
-    color: "#808080",
+    texture: "",
+    click: false,
+    hover: false,
   },
   upperFloor: {
     color: "#808080",
+    texture: "",
+    click: false,
+    hover: false,
+  },
+  sideWall: {
+    color: "#808080",
+    texture: "",
+    click: false,
+    hover: false,
+  },
+  lowerWall: {
+    color: "#808080",
+    texture: "",
+    click: false,
+    hover: false,
+  },
+  bedWall: {
+    color: "#808080",
+    texture: "",
+    click: false,
+    hover: false,
+  },
+  windowFrames: {
+    color: "#808080",
+    texture: "",
+    click: false,
+    hover: false,
   },
   stairs: {
     color: "#808080",
+    texture: "",
+    click: false,
+    hover: false,
   },
   handRail: {
     color: "#808080",
+    texture: "",
+    click: false,
+    hover: false,
   },
+};
+const resetClick = (state) => {
+  return {
+    ...state,
+    lowerFloor: { ...state.lowerFloor, click: false },
+    upperFloor: { ...state.upperFloor, click: false },
+    sideWall: { ...state.sideWall, click: false },
+    lowerWall: { ...state.lowerWall, click: false },
+    bedWall: { ...state.bedWall, click: false },
+    windowFrames: { ...state.windowFrames, click: false },
+    stairs: { ...state.stairs, click: false },
+    handRail: { ...state.handRail, click: false },
+  };
 };
 
 export const roomReducer = (state, action) => {
-  const name = action.payload.name;
-  const value = action.payload.color;
-  switch (action.type) {
-    case `color`:
-      return {
-        ...state,
-        [`${name}`]: { ...[name], color },
-      };
-    case "reset":
-      return initialColorState;
-    default:
-      throw new Error(`Unknown action type: ${action.type}`);
-  }
-};
+  const name = action.payload?.name;
+  const value = action.payload?.value;
 
-export const initialColorState = {
-  lowerFloorColor: "#808080",
-  sideWallColor: "#808080",
-  lowerWallColor: "#808080",
-  bedWallColor: "#808080",
-  windowFramesColor: "#808080",
-  upperFloorColor: "#808080",
-  stairsColor: "#808080",
-  handRailColor: "#808080",
-};
-export const colorReducer = (state, action) => {
-  const name = action.payload.name;
-  const value = action.payload.value;
   switch (action.type) {
-    case `color`:
+    case "color":
       return {
         ...state,
-        [`${name}Color`]: value,
+        [name]: { ...state[name], color: value },
       };
+    case "texture":
+      return {
+        ...state,
+        [name]: { ...state[name], texture: value },
+      };
+    case "click":
+      return {
+        ...state,
+        [name]: { ...state[name], click: !state[name].click },
+      };
+    case "hover":
+      return {
+        ...state,
+        [name]: { ...state[name], hover: !state[name].hover },
+      };
+
+    case "resetClick":
+      return resetClick(state);
     case "reset":
-      return initialColorState;
+      return roomState;
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }
@@ -140,36 +170,4 @@ export const clickReducer = (state, action) => {
 
 export const defaultMap = {
   map: "./Textures/wall-textures/beige-wall/beige_wall_001_diff_2k.jpg",
-};
-
-export const initialTextureState = {
-  lowerFloorTexture: "",
-  sideWallTexture: "",
-  lowerWallTexture: "",
-  bedWallTexture: "",
-  windowFramesTexture: "",
-  upperFloorTexture: "",
-  stairsTexture: "",
-  handRailTexture: "",
-};
-
-export const textureReducer = (state, action) => {
-  switch (action.type) {
-    case "lowerFloorTexture":
-      return { ...state, lowerFloorTexture: action.payload };
-    case "sideWallTexture":
-      return { ...state, sideWallTexture: action.payload };
-    case "lowerWallTexture":
-      return { ...state, lowerWallTexture: action.payload };
-    case "bedWallTexture":
-      return { ...state, bedWallTexture: action.payload };
-    case "windowFramesTexture":
-      return { ...state, windowFramesTexture: action.payload };
-    case "upperFloorTexture":
-      return { ...state, upperFloorTexture: action.payload };
-    case "stairsTexture":
-      return { ...state, stairsTexture: action.payload };
-    case "handRailTexture":
-      return { ...state, handRailTexture: action.payload };
-  }
 };
