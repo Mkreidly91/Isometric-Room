@@ -159,6 +159,7 @@ export default function IsometericRoom(props) {
   );
 
   const panelProps = selected && {
+    selected: selected,
     type: selected.objectType,
     name: selected.name,
     color: colorState[`${selected.name}Color`],
@@ -185,9 +186,10 @@ export default function IsometericRoom(props) {
     const { table, chair, carpet } = lowerFloorState;
     return [table, chair, carpet];
   };
+  // console.log(lowerFloorState.table);
   return (
     <group {...props} dispose={null} castShadow receiveShadow>
-      <Html>{isSelected && <Panel {...panelProps} />}</Html>
+      <Html>{selected && <Panel {...panelProps} />}</Html>
       <mesh
         objectType="Floor"
         name={names[0]}

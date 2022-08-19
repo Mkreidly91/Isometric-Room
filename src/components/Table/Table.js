@@ -32,7 +32,7 @@ export default function Table(props) {
   const selected = useSelect()[0];
 
   const tableRef = useRef();
-  console.log(tableRef);
+
   const isSelected =
     selected && tableRef.current && selected.uuid === tableRef.current.uuid;
 
@@ -45,6 +45,7 @@ export default function Table(props) {
   const { nodes, materials } = useGLTF("Table/Table.glb");
 
   const panelProps = isSelected && {
+    selected: selected.me,
     name: name,
     color: color,
     colorDispatch: dispatch,
@@ -66,8 +67,9 @@ export default function Table(props) {
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <Html>{isSelected && <Panel {...panelProps} />}</Html>
+      {/* <Html>{isSelected && <Panel {...panelProps} />}</Html> */}
       <mesh
+        me={props.me}
         ref={tableRef}
         name={name}
         castShadow

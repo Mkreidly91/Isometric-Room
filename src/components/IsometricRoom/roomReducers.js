@@ -9,23 +9,14 @@ export const initialColorState = {
   handRailColor: "#808080",
 };
 export const colorReducer = (state, action) => {
+  const name = action.payload.name;
+  const value = action.payload.value;
   switch (action.type) {
-    case "lowerFloorColor":
-      return { ...state, lowerFloorColor: action.payload };
-    case "sideWallColor":
-      return { ...state, sideWallColor: action.payload };
-    case "lowerWallColor":
-      return { ...state, lowerWallColor: action.payload };
-    case "bedWallColor":
-      return { ...state, bedWallColor: action.payload };
-    case "windowFramesColor":
-      return { ...state, windowFramesColor: action.payload };
-    case "upperFloorColor":
-      return { ...state, upperFloorColor: action.payload };
-    case "stairsColor":
-      return { ...state, stairsColor: action.payload };
-    case "handRailColor":
-      return { ...state, handRailColor: action.payload };
+    case `color`:
+      return {
+        ...state,
+        [`${name}Color`]: value,
+      };
     case "reset":
       return initialColorState;
     default:

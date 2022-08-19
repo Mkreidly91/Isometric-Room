@@ -31,3 +31,8 @@ export const LowerFloorButtons = (props) => {
     </div>
   );
 };
+
+export const DeleteButton = (props) => {
+  const { dispatch } = props;
+  return <button type="button">delete item</button>;
+};
