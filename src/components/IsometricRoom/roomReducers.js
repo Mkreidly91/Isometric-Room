@@ -27,12 +27,12 @@ export const roomState = {
 
 export const roomReducer = (state, action) => {
   const name = action.payload.name;
-  const value = action.payload.value;
+  const value = action.payload.color;
   switch (action.type) {
     case `color`:
       return {
         ...state,
-        [`${name}Color`]: value,
+        [`${name}`]: { ...[name], color },
       };
     case "reset":
       return initialColorState;
