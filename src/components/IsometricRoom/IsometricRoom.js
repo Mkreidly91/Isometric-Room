@@ -187,6 +187,7 @@ export default function IsometericRoom(props) {
     return [table, chair, carpet];
   };
   // console.log(lowerFloorState.table);
+
   return (
     <group {...props} dispose={null} castShadow receiveShadow>
       <Html>{selected && <Panel {...panelProps} />}</Html>

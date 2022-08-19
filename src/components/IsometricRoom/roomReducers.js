@@ -1,13 +1,45 @@
-export const roomState = {
-  lowerFloor: {},
-  sideWall: {},
-  lowerWall: {},
-  bedWall: {},
-  windowFrames: {},
-  upperFloor: {},
-  stairs: {},
-  handRail: {},
-};
+// export const roomState = {
+//   lowerFloor: {
+//     color: "#808080",
+//   },
+//   sideWall: {
+//     color: "#808080",
+//   },
+//   lowerWall: {
+//     color: "#808080",
+//   },
+//   bedWall: {
+//     color: "#808080",
+//   },
+//   windowFrames: {
+//     color: "#808080",
+//   },
+//   upperFloor: {
+//     color: "#808080",
+//   },
+//   stairs: {
+//     color: "#808080",
+//   },
+//   handRail: {
+//     color: "#808080",
+//   },
+// };
+
+// export const roomReducer = (state, action) => {
+//   const name = action.payload.name;
+//   const value = action.payload.value;
+//   switch (action.type) {
+//     case `color`:
+//       return {
+//         ...state,
+//         [`${name}Color`]: value,
+//       };
+//     case "reset":
+//       return initialColorState;
+//     default:
+//       throw new Error(`Unknown action type: ${action.type}`);
+//   }
+// };
 
 export const initialColorState = {
   lowerFloorColor: "#808080",
