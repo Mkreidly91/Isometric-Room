@@ -1,5 +1,11 @@
 import { PerspectiveCamera, Select, Html } from "@react-three/drei";
-import React, { useState, Suspense, useRef, useContext } from "react";
+import React, {
+  useState,
+  Suspense,
+  useRef,
+  useContext,
+  useEffect,
+} from "react";
 
 import { TransformControls, OrbitControls, useHelper } from "@react-three/drei";
 import { PointLightHelper } from "three";
@@ -52,12 +58,11 @@ export const SuspenseWrapper = (props) => {
           enabled={true}
         />
       )}
-
       <Select
         box
         onChange={(value) => {
           !enabled && setS(value);
-          // setS(value);
+          console.log(value);
         }}
       >
         <Html>
