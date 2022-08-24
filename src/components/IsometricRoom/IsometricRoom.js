@@ -35,6 +35,7 @@ export default function IsometericRoom(props) {
       roomDispatch({ type: "click", payload: { name: selected.name } });
     }
   }, [selected]);
+
   const [state, roomDispatch] = useReducer(roomReducer, roomState);
 
   const [lowerFloorState, lowerFloorDispatch] = useReducer(
@@ -99,7 +100,6 @@ export default function IsometericRoom(props) {
       wrap(texture);
     }
   );
-  console.log(selected);
 
   const panelProps = selected && {
     selected: selected,

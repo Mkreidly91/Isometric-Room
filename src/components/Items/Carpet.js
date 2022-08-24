@@ -6,6 +6,9 @@ export function Carpet(props) {
   return (
     <group {...props} dispose={null}>
       <mesh
+        name="carpet"
+        type="randomObject"
+        me={props.me}
         castShadow
         receiveShadow
         geometry={nodes.Carpet.geometry}

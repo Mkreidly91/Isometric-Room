@@ -18,18 +18,27 @@ const createItem = (type) => {
     const table = <Table me={`table${tableCounter}`} position={[0, 0.19, 0]} />;
     tableCounter++;
     return table;
+  } else if (type === "chair") {
+    const chair = <Chair me={`chair${chairCounter}`} />;
+    chairCounter++;
+    return chair;
   } else if (type === "carpet") {
-    return <Chair me={`chair${chairCounter}`} />;
-  } else if (type === "carpet") {
-    return <Carpet me={`carpet${carpetCounter}`} />;
+    const carpet = <Carpet me={`carpet${carpetCounter}`} />;
+    carpetCounter++;
+    return carpet;
   }
 };
 const removeItem = (state, payload) => {
-  const newArr = state[payload.type].filter(
+  const type = payload.type;
+  const newArr = state[type].filter(
     (element) => element.props.me !== payload.me
   );
-
-  if (payload.type === "table") return { ...state, table: newArr };
+  // console.log(
+  //   newArr.map((element) => {
+  //     return element.props.me;
+  //   })
+  // );
+  return { ...state, [type]: newArr };
 };
 
 export const lowerFloorReducer = (state, action) => {
@@ -41,10 +50,10 @@ export const lowerFloorReducer = (state, action) => {
         table: [...state.table, createItem("table")],
       };
     case "addChair":
-      return { ...state, chair: [...state.chair, <Chair />] };
+      return { ...state, chair: [...state.chair, createItem("chair")] };
 
     case "addCarpet":
-      return { ...state, carpet: [...state.carpet, <Carpet />] };
+      return { ...state, carpet: [...state.carpet, createItem("carpet")] };
 
     case "delete":
       return removeItem(state, payload);

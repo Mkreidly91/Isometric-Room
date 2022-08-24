@@ -1,20 +1,13 @@
-import { PerspectiveCamera, Select } from "@react-three/drei";
-import React, {
-  useState,
-  useMemo,
-  Suspense,
-  useEffect,
-  useCallback,
-  useRef,
-} from "react";
+import { PerspectiveCamera, Select, Html } from "@react-three/drei";
+import React, { useState, Suspense, useRef, useContext } from "react";
 
 import { TransformControls, OrbitControls, useHelper } from "@react-three/drei";
 import { PointLightHelper } from "three";
 
-import Table from "../Table/Table";
 import IsometericRoom from "../IsometricRoom/IsometricRoom";
 import { useTransformControls } from "../../util";
-import { FloorItems } from "../Items/FloorItems";
+import { ObjectPanel } from "../Panel/Panel";
+import { PortalContext } from "../../App";
 
 export const SuspenseWrapper = (props) => {
   const [s, setS] = useState([]);
@@ -27,6 +20,7 @@ export const SuspenseWrapper = (props) => {
 
   const lightHelper = useHelper(light, PointLightHelper, 3, "red");
   const lightHelper2 = useHelper(light2, PointLightHelper, 3, "red");
+  const portal = useContext(PortalContext);
 
   return (
     <Suspense fallback={null}>
@@ -54,7 +48,7 @@ export const SuspenseWrapper = (props) => {
         <TransformControls
           ref={TransformControlsRef}
           mode={mode}
-          object={s[0]}
+          object={selectedItem}
           enabled={true}
         />
       )}
@@ -63,8 +57,15 @@ export const SuspenseWrapper = (props) => {
         box
         onChange={(value) => {
           !enabled && setS(value);
+          // setS(value);
         }}
       >
+        <Html>
+          {selectedItem && selectedItem.type === "randomObject" && (
+            <ObjectPanel selected={selectedItem} portal={portal.current} />
+          )}
+        </Html>
+
         <IsometericRoom scale={5} />
       </Select>
     </Suspense>

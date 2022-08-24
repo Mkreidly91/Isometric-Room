@@ -5,20 +5,18 @@ import { Panel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
 
 const initialState = {
-  clicked: false,
-  hovered: false,
+  click: false,
+  hover: false,
   scale: 1,
   color: "#FFFFFF",
 };
 const reducer = (state, action) => {
   switch (action.type) {
-    case "clicked":
-      return { ...state, clicked: true };
-    case "hovered":
-      return { ...state, hovered: !state.hovered };
-    case "change-scale":
-      return { ...state, scale: action.payload };
-    case "tableColor":
+    case "click":
+      return { ...state, click: true };
+    case "hover":
+      return { ...state, hover: !state.hover };
+    case "color":
       return { ...state, color: action.payload };
     case "reset":
       return initialState;
@@ -37,7 +35,7 @@ export default function Table(props) {
     selected && tableRef.current && selected.uuid === tableRef.current.uuid;
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { clicked, hovered, scale, color } = state;
+  const { click, hover, scale, color } = state;
 
   const portal = useContext(PortalContext);
 
@@ -56,12 +54,12 @@ export default function Table(props) {
     onPointerEnter: (event) => {
       event.stopPropagation();
       const name = event.eventObject.name;
-      dispatch({ type: `hovered` });
+      dispatch({ type: `hover` });
     },
     onPointerLeave: (event) => {
       event.stopPropagation();
       const name = event.eventObject.name;
-      dispatch({ type: `hovered` });
+      dispatch({ type: `hover` });
     },
   };
 
@@ -69,6 +67,7 @@ export default function Table(props) {
     <group ref={group} {...props} dispose={null}>
       {/* <Html>{isSelected && <Panel {...panelProps} />}</Html> */}
       <mesh
+        type="randomObject"
         me={props.me}
         ref={tableRef}
         name={name}
@@ -79,13 +78,17 @@ export default function Table(props) {
         rotation={[Math.PI, 0, Math.PI]}
         {...hoverProps}
         scale={state.scale}
+        userData={{
+          color: color,
+          dispatch: dispatch,
+        }}
       >
         <meshStandardMaterial
           attach="material"
           color={state.color}
           reflectivity={1}
           transparent={true}
-          opacity={hovered ? 0.75 : 1}
+          opacity={hover ? 0.75 : 1}
         />
         {isSelected && (
           <Edges
