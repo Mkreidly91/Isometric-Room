@@ -58,8 +58,6 @@ const WallPanel = (props) => {
               type: "delete",
               payload: { type: selected.name, me: selected.me },
             });
-
-            console.log(selected.me);
           }}
         >
           delete me
@@ -88,8 +86,6 @@ export const ObjectPanel = (props) => {
             type: "delete",
             payload: { type: selected.name, me: selected.me },
           });
-
-          console.log(selected.me);
         }}
       >
         delete me
@@ -111,7 +107,7 @@ export const RoomPanel = (props) => {
       {selected.type !== "randomObject" && (
         <TexturePicker
           type={type}
-          value={JSON.stringify(texture)}
+          selectedTexture={JSON.stringify(texture)}
           setTexture={(value) => {
             dispatch({
               type: "texture",

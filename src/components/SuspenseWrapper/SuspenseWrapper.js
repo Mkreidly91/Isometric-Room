@@ -24,7 +24,6 @@ import {
 export const SuspenseWrapper = (props) => {
   const [s, setS] = useState([]);
   const selectedItem = s[0];
-  console.log(selectedItem?.me);
 
   const [TransformControlsRef, mode, enabled] =
     useTransformControls(selectedItem);
@@ -39,7 +38,7 @@ export const SuspenseWrapper = (props) => {
     lowerFloorReducer,
     initialLowerFloorItems
   );
-  console.log(lowerFloorState.table);
+
   return (
     <Suspense fallback={null}>
       <pointLight
