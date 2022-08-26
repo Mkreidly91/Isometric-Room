@@ -101,7 +101,7 @@ export default function IsometericRoom(props) {
     }
   );
 
-  const panelProps = selected && {
+  const panelProps = isSelected && {
     selected: selected,
     type: selected.objectType,
     name: selected.name,
@@ -125,13 +125,13 @@ export default function IsometericRoom(props) {
     },
   };
   const lowerFloorItems = () => {
-    const { table, chair, carpet } = lowerFloorState;
+    const { table, chair, carpet } = props.children;
     return [table, chair, carpet];
   };
 
   return (
     <group {...props} dispose={null} castShadow receiveShadow>
-      <Html>{selected && <Panel {...panelProps} />}</Html>
+      {/* <Html>{selected && <Panel {...panelProps} />}</Html> */}
       <mesh
         objectType="Floor"
         name={names[0]}
@@ -140,6 +140,13 @@ export default function IsometericRoom(props) {
         geometry={nodes.Lower_Floor.geometry}
         position={[0, -0.1, 0]}
         {...hoverProps}
+        userData={{
+          lowerFloorDispatch: lowerFloorDispatch,
+          dispatch: roomDispatch,
+
+          color: lowerFloor.color,
+          texture: lowerFloor.texture,
+        }}
       >
         <meshStandardMaterial
           attach="material"
@@ -172,6 +179,13 @@ export default function IsometericRoom(props) {
         geometry={nodes.Side_wall_Total.geometry}
         position={[-0.05, 2.5, -2.55]}
         {...hoverProps}
+        userData={{
+          lowerFloorDispatch: lowerFloorDispatch,
+          dispatch: roomDispatch,
+
+          color: sideWall.color,
+          texture: sideWall.texture,
+        }}
       >
         <meshStandardMaterial
           attach="material"
@@ -204,6 +218,13 @@ export default function IsometericRoom(props) {
         geometry={nodes.Stairs.geometry}
         position={[1.25, 1.1, -1.1]}
         {...hoverProps}
+        userData={{
+          lowerFloorDispatch: lowerFloorDispatch,
+          dispatch: roomDispatch,
+
+          color: stairs.color,
+          texture: stairs.texture,
+        }}
       >
         <meshStandardMaterial
           attach="material"
@@ -234,6 +255,13 @@ export default function IsometericRoom(props) {
         geometry={nodes.Handrail.geometry}
         position={[-0.47, 1.41, -0.18]}
         {...hoverProps}
+        userData={{
+          lowerFloorDispatch: lowerFloorDispatch,
+          dispatch: roomDispatch,
+
+          color: handRail.color,
+          texture: handRail.texture,
+        }}
       >
         <meshStandardMaterial
           attach="material"
@@ -258,6 +286,13 @@ export default function IsometericRoom(props) {
         castShadow
         receiveShadow
         {...hoverProps}
+        userData={{
+          lowerFloorDispatch: lowerFloorDispatch,
+          dispatch: roomDispatch,
+
+          color: lowerWall.color,
+          texture: lowerWall.texture,
+        }}
       >
         <meshStandardMaterial
           attach="material"
@@ -289,6 +324,13 @@ export default function IsometericRoom(props) {
         geometry={nodes.Bedwall_Section.geometry}
         position={[-2.55, 3.8, -0.63]}
         {...hoverProps}
+        userData={{
+          lowerFloorDispatch: lowerFloorDispatch,
+          dispatch: roomDispatch,
+
+          color: bedWall.color,
+          texture: bedWall.texture,
+        }}
       >
         <meshStandardMaterial
           attach="material"
@@ -320,6 +362,13 @@ export default function IsometericRoom(props) {
         geometry={nodes.Upper_Floor.geometry}
         position={[-1.25, 2.3, -0.63]}
         {...hoverProps}
+        userData={{
+          lowerFloorDispatch: lowerFloorDispatch,
+          dispatch: roomDispatch,
+
+          color: upperFloor.color,
+          texture: upperFloor.texture,
+        }}
       >
         <meshStandardMaterial
           attach="material"
@@ -351,6 +400,13 @@ export default function IsometericRoom(props) {
         geometry={nodes.Window_Frames.geometry}
         position={[-0.12, 2.95, -0.07]}
         {...hoverProps}
+        userData={{
+          lowerFloorDispatch: lowerFloorDispatch,
+          dispatch: roomDispatch,
+
+          color: windowFrames.color,
+          texture: windowFrames.texture,
+        }}
       >
         <meshStandardMaterial
           attach="material"

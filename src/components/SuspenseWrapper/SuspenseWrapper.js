@@ -5,6 +5,7 @@ import React, {
   useRef,
   useContext,
   useEffect,
+  useReducer,
 } from "react";
 
 import { TransformControls, OrbitControls, useHelper } from "@react-three/drei";
@@ -13,12 +14,17 @@ import { PointLightHelper } from "three";
 import IsometericRoom from "../IsometricRoom/IsometricRoom";
 import { useTransformControls } from "../../util";
 import { ObjectPanel } from "../Panel/Panel";
+import { RoomPanel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
 
+import {
+  lowerFloorReducer,
+  initialLowerFloorItems,
+} from "../IsometricRoom/itemReducers";
 export const SuspenseWrapper = (props) => {
   const [s, setS] = useState([]);
   const selectedItem = s[0];
-  console.log(s);
+  console.log(selectedItem?.me);
 
   const [TransformControlsRef, mode, enabled] =
     useTransformControls(selectedItem);
@@ -29,6 +35,11 @@ export const SuspenseWrapper = (props) => {
   const lightHelper2 = useHelper(light2, PointLightHelper, 3, "red");
   const portal = useContext(PortalContext);
 
+  const [lowerFloorState, lowerFloorDispatch] = useReducer(
+    lowerFloorReducer,
+    initialLowerFloorItems
+  );
+  console.log(lowerFloorState.table);
   return (
     <Suspense fallback={null}>
       <pointLight
@@ -57,13 +68,6 @@ export const SuspenseWrapper = (props) => {
           mode={mode}
           object={selectedItem}
           enabled={true}
-          onMouseUp={(event) => {
-            // console.log(event.target);
-            // event.target.dispose();
-          }}
-          onPointerUp={(event) => {
-            console.log(event);
-          }}
         />
       )}
       <Select
@@ -74,11 +78,26 @@ export const SuspenseWrapper = (props) => {
       >
         <Html>
           {selectedItem && selectedItem.type === "randomObject" && (
-            <ObjectPanel selected={selectedItem} portal={portal.current} />
+            <ObjectPanel
+              selected={selectedItem}
+              portal={portal.current}
+              lowerFloorDispatch={lowerFloorDispatch}
+            />
+          )}
+          {selectedItem && (
+            <RoomPanel
+              selected={selectedItem}
+              portal={portal.current}
+              lowerFloorDispatch={lowerFloorDispatch}
+            />
           )}
         </Html>
 
-        <IsometericRoom scale={5} transformEnabled={enabled} />
+        <IsometericRoom
+          scale={5}
+          transformEnabled={enabled}
+          children={lowerFloorState}
+        />
       </Select>
     </Suspense>
   );

@@ -72,7 +72,7 @@ export const ObjectPanel = (props) => {
   const { selected, portal } = props;
   const color = selected.userData.color;
   const dispatch = selected.userData.dispatch;
-
+  const lowerFloorDispatch = props.lowerFloorDispatch;
   return createPortal(
     <div>
       <ColorPicker
@@ -81,37 +81,68 @@ export const ObjectPanel = (props) => {
           dispatch({ type: "color", payload: value });
         }}
       />
-      {/* <button
+      <button
         type="button"
         onClick={() => {
-          dispatch({
+          lowerFloorDispatch({
             type: "delete",
+            payload: { type: selected.name, me: selected.me },
           });
+
+          console.log(selected.me);
         }}
       >
         delete me
-      </button> */}
+      </button>
+    </div>,
+    portal
+  );
+};
+export const RoomPanel = (props) => {
+  const { selected, portal } = props;
+  const color = selected.userData.color;
+  const texture = selected.userData.texture;
+  const dispatch = selected.userData.dispatch;
+  const lowerFloorDispatch = props.lowerFloorDispatch;
+  const type = selected.objectType;
+  const name = selected.name;
+  return createPortal(
+    <div>
+      {selected.type !== "randomObject" && (
+        <TexturePicker
+          type={type}
+          value={JSON.stringify(texture)}
+          setTexture={(value) => {
+            dispatch({
+              type: "texture",
+              payload: { value: value, name: name },
+            });
+          }}
+        />
+      )}
+      {selected.type !== "randomObject" && (
+        <ColorPicker
+          selectedColor={color}
+          dispatch={(value) => {
+            dispatch({
+              type: `color`,
+              payload: { value: value, name: name },
+            });
+          }}
+        />
+      )}
+      {selected.type !== "randomObject" && (
+        <LowerFloorButtons lowerFloorDispatch={lowerFloorDispatch} />
+      )}
     </div>,
     portal
   );
 };
 
-// export const wallFloorPanel= (props) => {
-//   const {selected,portal} = props;
-//   const color = selected.userData.color;
-//   const texture = selected.userData.texture;
-//   const dispatch = selected.userData.dispatch;
-//   return(
-
-//   )
-// }
-
 export const Panel = (props) => {
   const { type, portal, name, colorDispatch, color, selected } = props;
-  // if (type === "Wall" || type === "Floor") {
-  //   return createPortal(<WallPanel {...props} />, portal);
-  // } else {
-  //   return createPortal(<ObjectPanel {...props} />, portal);
-  // }
-  return createPortal(<WallPanel {...props} />, portal);
+  if (type === "Wall" || type === "Floor") {
+    return createPortal(<WallPanel {...props} />, portal);
+  }
+  // return createPortal(<WallPanel {...props} />, portal);
 };
