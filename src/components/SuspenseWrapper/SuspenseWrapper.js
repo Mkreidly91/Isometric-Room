@@ -18,6 +18,7 @@ import { PortalContext } from "../../App";
 export const SuspenseWrapper = (props) => {
   const [s, setS] = useState([]);
   const selectedItem = s[0];
+  console.log(s);
 
   const [TransformControlsRef, mode, enabled] =
     useTransformControls(selectedItem);
@@ -50,19 +51,25 @@ export const SuspenseWrapper = (props) => {
         // target={new Vector3(0, 0, 0)}
         // target={s[0] ? s[0].position : new Vector3(0, 0, 0)}
       />
-      {enabled && s && (
+      {enabled && selectedItem && (
         <TransformControls
           ref={TransformControlsRef}
           mode={mode}
           object={selectedItem}
           enabled={true}
+          onMouseUp={(event) => {
+            // console.log(event.target);
+            // event.target.dispose();
+          }}
+          onPointerUp={(event) => {
+            console.log(event);
+          }}
         />
       )}
       <Select
         box
         onChange={(value) => {
           !enabled && setS(value);
-          console.log(value);
         }}
       >
         <Html>
@@ -71,7 +78,7 @@ export const SuspenseWrapper = (props) => {
           )}
         </Html>
 
-        <IsometericRoom scale={5} />
+        <IsometericRoom scale={5} transformEnabled={enabled} />
       </Select>
     </Suspense>
   );
