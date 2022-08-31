@@ -67,14 +67,14 @@ const WallPanel = (props) => {
   );
 };
 export const ObjectPanel = (props) => {
-  const { selected, portal } = props;
+  const { selected, resetSelected, portal } = props;
   const color = selected.userData.color;
   const dispatch = selected.userData.dispatch;
   const lowerFloorDispatch = props.lowerFloorDispatch;
   return createPortal(
     <div>
       <ColorPicker
-        selectedColor={color}
+        selected={selected}
         dispatch={(value) => {
           dispatch({ type: "color", payload: value });
         }}
@@ -86,6 +86,7 @@ export const ObjectPanel = (props) => {
             type: "delete",
             payload: { type: selected.name, me: selected.me },
           });
+          resetSelected();
         }}
       >
         delete me
@@ -96,40 +97,38 @@ export const ObjectPanel = (props) => {
 };
 export const RoomPanel = (props) => {
   const { selected, portal } = props;
+
   const color = selected.userData.color;
   const texture = selected.userData.texture;
   const dispatch = selected.userData.dispatch;
   const lowerFloorDispatch = props.lowerFloorDispatch;
   const type = selected.objectType;
   const name = selected.name;
+
   return createPortal(
     <div>
-      {selected.type !== "randomObject" && (
-        <TexturePicker
-          type={type}
-          selectedTexture={JSON.stringify(texture)}
-          setTexture={(value) => {
-            dispatch({
-              type: "texture",
-              payload: { value: value, name: name },
-            });
-          }}
-        />
-      )}
-      {selected.type !== "randomObject" && (
-        <ColorPicker
-          selectedColor={color}
-          dispatch={(value) => {
-            dispatch({
-              type: `color`,
-              payload: { value: value, name: name },
-            });
-          }}
-        />
-      )}
-      {selected.type !== "randomObject" && (
-        <LowerFloorButtons lowerFloorDispatch={lowerFloorDispatch} />
-      )}
+      <TexturePicker
+        type={type}
+        selected={selected}
+        dispatch={(value) => {
+          dispatch({
+            type: "texture",
+            payload: { value: value, name: name },
+          });
+        }}
+      />
+
+      <ColorPicker
+        selected={selected}
+        dispatch={(value) => {
+          dispatch({
+            type: `color`,
+            payload: { value: value, name: name },
+          });
+        }}
+      />
+
+      <LowerFloorButtons lowerFloorDispatch={lowerFloorDispatch} />
     </div>,
     portal
   );

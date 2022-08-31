@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useRef } from "react";
+import React, { createContext, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { SuspenseWrapper } from "./components/SuspenseWrapper/SuspenseWrapper";
 import "./App.css";
-import { useHelper } from "@react-three/drei";
 
 import { OrthographicCamera, PointLightHelper } from "three";
 

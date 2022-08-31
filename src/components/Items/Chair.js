@@ -26,6 +26,8 @@ const reducer = (state, action) => {
 };
 
 export function Chair(props) {
+  const TransformContext = useContext(TransformContext);
+  console.log(TransformContext);
   const { nodes, materials } = useGLTF("misc/Chair.glb");
   const selected = useSelect()[0];
   const chairRef = useRef();

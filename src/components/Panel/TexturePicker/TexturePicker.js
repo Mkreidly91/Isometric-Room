@@ -3,10 +3,9 @@ import { wallTextures, groundTextures } from "../../../textures";
 
 import "./TexturePicker.css";
 
-export const TexturePicker = ({ selectedTexture, setTexture, type }) => {
+export const TexturePicker = ({ selected, dispatch, type }) => {
   const { textureList, textureMaps } =
     type == "Wall" ? wallTextures : groundTextures;
-  const [state, setState] = useState("");
 
   const NewListItems = Object.keys(textureList).map((element, i) => {
     const name = textureList[element];
@@ -17,9 +16,13 @@ export const TexturePicker = ({ selectedTexture, setTexture, type }) => {
       </option>
     );
   });
+  const [state, setState] = useState("");
+  const texture = selected?.userData.texture;
+
   useEffect(() => {
-    setState(selectedTexture);
-  }, [selectedTexture]);
+    setState(JSON.stringify(texture));
+  }, [selected]);
+
   return (
     <div className="selectorContainer">
       <label htmlFor="TextureSelect">Choose a texture:</label>
@@ -30,7 +33,7 @@ export const TexturePicker = ({ selectedTexture, setTexture, type }) => {
         onChange={(event) => {
           const value =
             event.target.value !== "" ? JSON.parse(event.target.value) : "";
-          setTexture(value);
+          dispatch(value);
           setState(event.target.value);
         }}
       >

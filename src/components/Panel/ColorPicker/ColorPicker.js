@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { SketchPicker } from "react-color";
 
-export const ColorPicker = ({ dispatch, selectedColor }) => {
+export const ColorPicker = ({ dispatch, selected }) => {
   const [color, setColor] = useState();
+
   useEffect(() => {
-    setColor(selectedColor);
-  }, [selectedColor]);
+    setColor(selected.userData.color);
+  }, [selected]);
+  // console.log(selectedColor);
   return (
     <div>
       <SketchPicker

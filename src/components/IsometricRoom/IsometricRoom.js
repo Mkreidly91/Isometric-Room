@@ -1,5 +1,5 @@
 import React, { useContext, useReducer, useEffect, useRef } from "react";
-import { Html, useGLTF, useSelect } from "@react-three/drei";
+import { useGLTF, useSelect } from "@react-three/drei";
 import { Panel } from "../Panel/Panel";
 import { PortalContext } from "../../App";
 import { Edges, useTexture } from "@react-three/drei";
@@ -28,6 +28,7 @@ export default function IsometericRoom(props) {
   const selected = useSelect()[0];
   const isSelected = selected && names.includes(selected.name);
   const enabled = props.transformEnabled;
+  console.log(props.children);
   useEffect(() => {
     if (!isSelected) roomDispatch({ type: "resetClick" });
     else if (isSelected && !enabled) {
