@@ -5,67 +5,8 @@ import { ScaleSlider } from "./ScaleSlider/ScaleSlider";
 import { ColorPicker } from "./ColorPicker/ColorPicker";
 import { FloorItems } from "../Items/FloorItems";
 import { LowerFloorButtons } from "./itemPicker/itemPicker";
-import {
-  initialLowerFloorItems,
-  lowerFloorReducer,
-} from "../IsometricRoom/itemReducers";
 import { useSelect } from "@react-three/drei";
 
-const WallPanel = (props) => {
-  const {
-    texture,
-    color,
-    lowerFloorDispatch,
-    roomDispatch,
-    name,
-    type,
-    selected,
-  } = props;
-
-  return (
-    <div>
-      {selected.type !== "randomObject" && (
-        <TexturePicker
-          type={type}
-          value={JSON.stringify(texture)}
-          setTexture={(value) => {
-            roomDispatch({
-              type: "texture",
-              payload: { value: value, name: name },
-            });
-          }}
-        />
-      )}
-      {selected.type !== "randomObject" && (
-        <ColorPicker
-          selectedColor={color}
-          dispatch={(value) => {
-            roomDispatch({
-              type: `color`,
-              payload: { value: value, name: name },
-            });
-          }}
-        />
-      )}
-      {selected.type !== "randomObject" && (
-        <LowerFloorButtons lowerFloorDispatch={lowerFloorDispatch} />
-      )}
-      {selected.type === "randomObject" && (
-        <button
-          type="button"
-          onClick={() => {
-            lowerFloorDispatch({
-              type: "delete",
-              payload: { type: selected.name, me: selected.me },
-            });
-          }}
-        >
-          delete me
-        </button>
-      )}
-    </div>
-  );
-};
 export const ObjectPanel = (props) => {
   const { selected, resetSelected, portal } = props;
   const color = selected.userData.color;
@@ -134,10 +75,10 @@ export const RoomPanel = (props) => {
   );
 };
 
-export const Panel = (props) => {
-  const { type, portal, name, colorDispatch, color, selected } = props;
-  if (type === "Wall" || type === "Floor") {
-    return createPortal(<WallPanel {...props} />, portal);
-  }
-  // return createPortal(<WallPanel {...props} />, portal);
-};
+// export const Panel = (props) => {
+//   const { type, portal, name, colorDispatch, color, selected } = props;
+//   if (type === "Wall" || type === "Floor") {
+//     return createPortal(<WallPanel {...props} />, portal);
+//   }
+//   // return createPortal(<WallPanel {...props} />, portal);
+// };

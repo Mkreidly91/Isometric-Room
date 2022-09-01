@@ -21,7 +21,7 @@ import { PortalContext } from "../../App";
 import {
   lowerFloorReducer,
   initialLowerFloorItems,
-} from "../IsometricRoom/itemReducers";
+} from "../Items/itemReducers";
 
 export const SuspenseWrapper = (props) => {
   const [s, setS] = useState([]);

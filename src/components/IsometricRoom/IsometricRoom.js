@@ -8,8 +8,6 @@ import * as THREE from "three";
 
 import { roomState, roomReducer, defaultMap } from "./roomReducers";
 
-import { initialLowerFloorItems, lowerFloorReducer } from "./itemReducers";
-
 const names = [
   "lowerFloor",
   "sideWall",
@@ -38,11 +36,6 @@ export default function IsometericRoom(props) {
   }, [selected]);
 
   const [state, roomDispatch] = useReducer(roomReducer, roomState);
-
-  const [lowerFloorState, lowerFloorDispatch] = useReducer(
-    lowerFloorReducer,
-    initialLowerFloorItems
-  );
 
   const {
     lowerFloor,
@@ -102,17 +95,6 @@ export default function IsometericRoom(props) {
     }
   );
 
-  const panelProps = isSelected && {
-    selected: selected,
-    type: selected.objectType,
-    name: selected.name,
-    color: state[selected.name]?.color || selected.material.color,
-    texture: state[selected.name]?.texture,
-    lowerFloorDispatch: lowerFloorDispatch,
-    roomDispatch: roomDispatch,
-    portal: portal.current,
-  };
-
   const hoverProps = {
     onPointerEnter: (event) => {
       event.stopPropagation();
@@ -132,7 +114,6 @@ export default function IsometericRoom(props) {
 
   return (
     <group {...props} dispose={null} castShadow receiveShadow>
-      {/* <Html>{selected && <Panel {...panelProps} />}</Html> */}
       <mesh
         objectType="Floor"
         name={names[0]}
@@ -142,7 +123,6 @@ export default function IsometericRoom(props) {
         position={[0, -0.1, 0]}
         {...hoverProps}
         userData={{
-          lowerFloorDispatch: lowerFloorDispatch,
           dispatch: roomDispatch,
 
           color: lowerFloor.color,
@@ -181,7 +161,6 @@ export default function IsometericRoom(props) {
         position={[-0.05, 2.5, -2.55]}
         {...hoverProps}
         userData={{
-          lowerFloorDispatch: lowerFloorDispatch,
           dispatch: roomDispatch,
 
           color: sideWall.color,
@@ -220,7 +199,6 @@ export default function IsometericRoom(props) {
         position={[1.25, 1.1, -1.1]}
         {...hoverProps}
         userData={{
-          lowerFloorDispatch: lowerFloorDispatch,
           dispatch: roomDispatch,
 
           color: stairs.color,
@@ -257,7 +235,6 @@ export default function IsometericRoom(props) {
         position={[-0.47, 1.41, -0.18]}
         {...hoverProps}
         userData={{
-          lowerFloorDispatch: lowerFloorDispatch,
           dispatch: roomDispatch,
 
           color: handRail.color,
@@ -288,7 +265,6 @@ export default function IsometericRoom(props) {
         receiveShadow
         {...hoverProps}
         userData={{
-          lowerFloorDispatch: lowerFloorDispatch,
           dispatch: roomDispatch,
 
           color: lowerWall.color,
@@ -326,7 +302,6 @@ export default function IsometericRoom(props) {
         position={[-2.55, 3.8, -0.63]}
         {...hoverProps}
         userData={{
-          lowerFloorDispatch: lowerFloorDispatch,
           dispatch: roomDispatch,
 
           color: bedWall.color,
@@ -364,7 +339,6 @@ export default function IsometericRoom(props) {
         position={[-1.25, 2.3, -0.63]}
         {...hoverProps}
         userData={{
-          lowerFloorDispatch: lowerFloorDispatch,
           dispatch: roomDispatch,
 
           color: upperFloor.color,
@@ -402,7 +376,6 @@ export default function IsometericRoom(props) {
         position={[-0.12, 2.95, -0.07]}
         {...hoverProps}
         userData={{
-          lowerFloorDispatch: lowerFloorDispatch,
           dispatch: roomDispatch,
 
           color: windowFrames.color,

@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useReducer } from "react";
+import React, { useRef, useReducer } from "react";
 import { Edges, useGLTF, useSelect } from "@react-three/drei";
 
 const initialState = {
@@ -26,8 +26,6 @@ const reducer = (state, action) => {
 };
 
 export function Chair(props) {
-  const TransformContext = useContext(TransformContext);
-  console.log(TransformContext);
   const { nodes, materials } = useGLTF("misc/Chair.glb");
   const selected = useSelect()[0];
   const chairRef = useRef();
