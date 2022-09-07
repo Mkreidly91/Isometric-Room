@@ -26,7 +26,7 @@ export default function IsometericRoom(props) {
   const selected = useSelect()[0];
   const isSelected = selected && names.includes(selected.name);
   const enabled = props.transformEnabled;
-  console.log(props.children);
+
   useEffect(() => {
     if (!isSelected) roomDispatch({ type: "resetClick" });
     else if (isSelected && !enabled) {

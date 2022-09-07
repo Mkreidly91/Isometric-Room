@@ -30,8 +30,6 @@ export const SuspenseWrapper = (props) => {
   };
   const selectedItem = s[0];
 
-  console.log(selectedItem?.material);
-
   const [TransformControlsRef, mode, enabled] =
     useTransformControls(selectedItem);
   const TransformContext = createContext();

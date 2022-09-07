@@ -14,15 +14,6 @@ const App = () => {
   const portal = useRef();
   const light = useRef();
 
-  // const camera = new THREE.PerspectiveCamera(
-  //   60,
-  //   window.innerWidth / window.innerHeight,
-  //   0.1,
-  //   1000
-  // );
-  // camera.position.set(50, 50, 50);
-  // camera.lookAt(new THREE.Vector3(0, 0, 0));
-
   const aspect = window.innerWidth / window.innerHeight;
   const d = 60;
   const camera = new THREE.OrthographicCamera(
@@ -34,6 +25,7 @@ const App = () => {
     1000
   );
   camera.position.set(60, 60, 60);
+  camera.zoom = 10;
   camera.lookAt(new THREE.Vector3(0, 0, 0));
   console.log(camera);
 
