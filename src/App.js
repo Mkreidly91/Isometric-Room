@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { SuspenseWrapper } from "./components/SuspenseWrapper/SuspenseWrapper";
 import "./App.css";
-
+import { TransformHelper } from "./components/TransformHelper/TransformHelper";
 import { OrthographicCamera, PointLightHelper } from "three";
 
 //a React.context to be passed down to all models
@@ -38,6 +38,7 @@ const App = () => {
         </PortalContext.Provider>
       </Canvas>
       <div className="portal" ref={portal}></div>
+      <TransformHelper className="TransformHelper" />
     </div>
   );
 };

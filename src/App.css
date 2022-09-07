@@ -2,14 +2,19 @@
   width: 100vw;
   height: 100vh;
   background-color: #6c6f75;
-
   position: relative;
 }
 .portal {
   position: absolute;
-
   height: 100vh;
   top: 0;
   right: 0;
   background-color: grey;
+}
+.TransformHelper {
+  position: absolute;
+  color: black;
+  bottom: 100px;
+  width: 100%;
+  text-align: center;
 }
