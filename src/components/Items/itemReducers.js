@@ -1,7 +1,7 @@
 import Table from "../Table/Table";
-import { Bed } from "../Items/Bed";
-import { Carpet } from "../Items/Carpet";
-import { Chair } from "../Items/Chair";
+import { Bed } from "./Bed";
+import { Carpet } from "./Carpet";
+import { Chair } from "./Chair";
 
 export const initialLowerFloorItems = {
   table: [],
